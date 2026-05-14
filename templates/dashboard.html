@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Task Manager</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <header class="app-header">
+        <h2><span class="highlight">Fast</span> Task Manager</h2>
+    </header>
+
+    <div class="dashboard-container">
+        <h3>Minhas Tarefas</h3>
+
+        <form class="task-form" action="/add_task" method="post">
+            <div class="form-group">
+                <label>O que precisa ser feito?</label>
+                <input type="text" name="title" placeholder="Ex: Estudar FastAPI" required>
+            </div>
+            <div class="form-group">
+                <label>Prazo</label>
+                <input type="datetime-local" name="due_date" required>
+            </div>
+            <div class="form-group">
+                <label>Prioridade</label>
+                <select name="priority">
+                    <option value="Alta">Alta</option>
+                    <option value="Média">Média</option>
+                    <option value="Baixa">Baixa</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-add">Adicionar</button>
+        </form>
+
+        <ul class="task-list">
+            <li class="task-item priority-high">
+                <div class="task-info">
+                    <h4>Reunião de Projeto</h4>
+                    <p>Prazo: 15/05/2026 às 14:00</p>
+                </div>
+                <span>⚠️ Alta</span>
+            </li>
+
+        </ul>
+    </div>
+
+    <a href="/" class="logout-link">Sair do sistema</a>
+
+</body>
+
+</html>

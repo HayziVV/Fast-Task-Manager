@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <header class="app-header">
+        <h2><span class="highlight">Fast</span> Task Manager</h2>
+    </header>
+
+    <div class="sign-up-container">
+        <h1>Cadastre-se</h1>
+        <form action="/signup" method="post">
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirmar Senha</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+
+            {% if error %}
+            <div class="error-alert">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <button type="submit">Cadastrar</button>
+
+            <div class="footer-text">
+                Já tem uma conta? <a href="/">Entrar</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
