@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fast Task Manager — {{ page_title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="/static/css/base.css?v=1.0.1" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="app">
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 18 18" fill="none">
+                        <rect x="2" y="2" width="6" height="6" rx="1.5" fill="#0f0f10" />
+                        <rect x="10" y="2" width="6" height="6" rx="1.5" fill="#0f0f10" />
+                        <rect x="2" y="10" width="6" height="6" rx="1.5" fill="#0f0f10" />
+                        <rect x="10" y="12" width="6" height="2" rx="1" fill="#0f0f10" />
+                        <rect x="13" y="9" width="2" height="6" rx="1" fill="#0f0f10" transform="rotate(0 13 9)" />
+                    </svg>
+                </div>
+                <span class="logo-text">Fast Task<span> Manager</span></span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <span class="sidebar-section-label">Principal</span>
+
+                <a class="nav-item {% if page == 'dashboard' %}active{% endif %}" href="/dashboard">
+                    <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="5" height="5" rx="1.2" />
+                            <rect x="11" y="2" width="5" height="5" rx="1.2" />
+                            <rect x="2" y="11" width="5" height="5" rx="1.2" />
+                            <rect x="11" y="11" width="5" height="5" rx="1.2" />
+                        </svg></span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+
+                <a class="nav-item {% if page == 'tasks' %}active{% endif %}" href="/tasks">
+                    <span class="nav-icon"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 4h9M6 9h9M6 14h9" />
+                            <circle cx="3" cy="4" r="1" />
+                            <circle cx="3" cy="9" r="1" />
+                            <circle cx="3" cy="14" r="1" />
+                        </svg></span>
+                    <span class="nav-label">Tarefas</span>
+                </a>
+
+                <a class="nav-item {% if page == 'projects' %}active{% endif %}" href="/projects">
+                    <span class="nav-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="10" width="36" height="28" rx="3" />
+                            <path d="M6 18h36M16 10v8M32 10v8" />
+                            <path d="M14 26h8M14 32h14" />
+                        </svg></span>
+                    <span class="nav-label">Projetos</span>
+                </a>
+
+                <a class="nav-item {% if page == 'calendar' %}active{% endif %}" href="/calendar">
+                    <span class="nav-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="8" width="36" height="34" rx="3" />
+                            <path d="M6 18h36M16 8v4M32 8v4" />
+                            <rect x="12" y="24" width="6" height="6" rx="1" />
+                            <rect x="21" y="24" width="6" height="6" rx="1" />
+                            <rect x="30" y="24" width="6" height="6" rx="1" />
+                        </svg></span>
+                    <span class="nav-label">Calendario</span>
+                </a>
+
+                <span class="sidebar-footer"></span>
+                <span class="sidebar-section-label">Colaboração</span>
+
+                <a class="nav-item {% if page == 'team' %}active{% endif %}" href="/team">
+                    <span class="nav-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="18" cy="16" r="7" />
+                            <path d="M4 42c0-7.73 6.27-14 14-14s14 6.27 14 14" />
+                            <path d="M34 12a6 6 0 1 1 0 12" />
+                            <path d="M44 42c0-6.63-4.47-12.2-10.5-13.97" />
+                        </svg></span>
+                    <span class="nav-label">Equipe</span>
+                </a>
+
+                <a class="nav-item {% if page == 'reports' %}active{% endif %}" href="/reports">
+                    <span class="nav-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 40l8-12 8 6 10-14 8-6" />
+                            <path d="M8 8v34h34" />
+                        </svg></span>
+                    <span class="nav-label">Relatorios</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div class="avatar">T</div>
+                    <div class="user-info">
+                        <div class="user-name">{{username}}</div>
+                        <div class="user-role">user_role</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 id="pageTitle">{{ page_title }}</h1>
+                    <p id="pageDate"></p>
+                </div>
+                <div class="topbar-right">
+                    <a class="btn-new" href="/signout"
+                        style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Sair</a>
+                </div>
+            </header>
+
+            <div class="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', path='js/script.js') }}"></script>
+</body>
+
+</html>

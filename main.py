@@ -1,80 +1,30 @@
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-import sqlite3
+from starlette.middleware.sessions import SessionMiddleware
+from dotenv import load_dotenv
+from database import init_db
+from routers import auth, projects, tasks, views
 import uvicorn
+import os
+
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+if not SECRET_KEY:
+    raise ValueError("ERRO: A variável de ambiente SECRET_KEY não foi definida no arquivo .env!")
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
-def init_db():
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
-        )
-    """)
-    conn.commit()
-    conn.close()
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY) # Test purposes only. 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 init_db()
 
-@app.get("/")
-async def sign_in_screen(request: Request):
-    return templates.TemplateResponse(request=request, name="sign_in.html")
+app.include_router(auth.router)
+app.include_router(projects.router)
+app.include_router(tasks.router)
+app.include_router(views.router)
 
-
-@app.get("/sign_up")
-async def sign_up_screen(request: Request):
-    return templates.TemplateResponse(request=request, name="sign_up.html")
-
-@app.get("/dashboard")
-async def sign_up_screen(request: Request):
-    return templates.TemplateResponse(request=request, name="dashboard.html")
-
-@app.post("/signup")
-async def sign_up(request: Request, username: str = Form(...), password: str = Form(...), confirm_password: str = Form(...)):
-    if password != confirm_password:
-        return "Erro, as senhas não coincidem."
-    try:
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
-        conn.commit()
-        conn.close()
-        return RedirectResponse(url="/", status_code=303)
-    except sqlite3.IntegrityError:
-        return templates.TemplateResponse(
-            request=request, 
-            name="sign_up.html", 
-            context={
-                "error": "Usuário já existe.",
-            }
-        )
-
-@app.post("/signin", response_class=HTMLResponse)
-async def sign_in(request: Request, username: str = Form(...), password: str = Form(...)):
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
-    user = cursor.fetchone()
-    conn.close
-
-    if user:
-        return RedirectResponse(url="/dashboard", status_code=303)
-    else:
-       return templates.TemplateResponse(
-            request=request, 
-            name="sign_in.html", 
-            context={
-                "error": "Usuário ou senha incorretos.",
-            }
-        )
 
 if __name__ == "__main__":
     uvicorn.run("main:app", reload=True)
