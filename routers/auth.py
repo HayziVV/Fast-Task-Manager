@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-from starlette.middleware.sessions import SessionMiddleware
+from database import get_connection
 import sqlite3
 
 
@@ -19,13 +18,11 @@ async def sign_up(
     if password != confirm_password:
         return templates.TemplateResponse(request=request, name="sign_up.html", context={"request": request, "error": "As senhas não coincidem."})
 
-    role_id = None
-    team_id = None
     conn = None
     try:
-        conn = sqlite3.connect("database.db", timeout=20)
+        conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (username, role_id, team_id, password) VALUES (?, ?, ?, ?)", (username, role_id, team_id, password))
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
         conn.commit()
         return RedirectResponse(url="/", status_code=303)
     except sqlite3.IntegrityError:
@@ -42,12 +39,13 @@ async def sign_in(
 ):
     conn = None
     try:
-        conn = sqlite3.connect("database.db", timeout=20)
+        conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT user_id FROM users WHERE username = ? AND password = ?", (username, password))
         user = cursor.fetchone()
 
         if user:
+            request.session["username"] = username
             request.session["user_id"] = int(user[0])
             return RedirectResponse(url="/dashboard", status_code=303)
         else:

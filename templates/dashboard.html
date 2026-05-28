@@ -1,9 +1,208 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="stats-grid">
+<div class="projects-header">
+    <div class="header-info">
+        <h2>Dashboard</h2>
+        <p>Veja seus projetos e tarefas.</p>
+    </div>
+</div>
+
+<div class="dashboard-wrapper"
+    style="padding: 24px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; gap: 32px;">
+
+    {% if error %}
+    <div class="error-alert"
+        style="background: rgba(255, 82, 82, 0.1); border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: var(--radius); font-size: 13px;">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="dashboard-section">
+        <div class="section-header" style="margin-bottom: 16px; display: flex; flex-direction: column; gap: 4px;">
+            <h2
+                style="font-size: 18px; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                </svg>
+                Tarefas por Ordem de Vencimento
+            </h2>
+            <p style="font-size: 12px; color: var(--muted);">Consulta rápida da prioridade de entrega cronológica.</p>
+        </div>
+
+        <div class="tasks-list"
+            style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;">
+            {% for task in tasks %}
+            <div class="task-row"
+                style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border);">
+                <div class="task-info" style="flex: 1; min-width: 0;">
+                    <span class="task-name" style="font-size: 14px; font-weight: 600; color: var(--text);">{{ task[1]
+                        }}</span>
+                    <div class="task-meta" style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+                        {% if task[4] %}
+                        <span class="task-project"
+                            style="font-size: 11px; color: var(--info); display: flex; align-items: center; gap: 4px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                                </path>
+                            </svg>
+                            {{ task[4] }}
+                        </span>
+                        {% endif %}
+                        <p
+                            style="font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 450px;">
+                            {{ task[2] }}</p>
+                    </div>
+                </div>
+
+                <div class="task-date-badge" style="text-align: right; flex-shrink: 0;">
+                    {% if task[3] %}
+                    <span class="task-date"
+                        style="font-family: 'Space Mono', monospace; font-size: 11px; padding: 4px 8px; background: var(--bg3); border-radius: 4px; color: var(--text); display: inline-flex; align-items: center; gap: 6px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Vence: {{ task[3] }}
+                    </span>
+                    {% else %}
+                    <span class="task-date"
+                        style="font-family: 'Space Mono', monospace; font-size: 11px; padding: 4px 8px; background: rgba(255,255,255,0.02); border-radius: 4px; color: var(--muted); display: inline-flex; align-items: center; gap: 6px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        Sem prazo
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-state"
+                style="text-align: center; padding: 48px 20px; color: var(--muted); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    style="color: var(--muted); opacity: 0.5;">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="m15 9-6 6"></path>
+                    <path d="m9 9 6 6"></path>
+                </svg>
+                Nenhuma tarefa pendente encontrada na sua conta.
+            </div>
+            {% endfor %}
+
+            {% if total_pages > 1 %}
+            <div class="pagination-bar"
+                style="display: flex; justify-content: center; align-items: center; gap: 16px; padding: 12px 20px; background: var(--bg3); border-top: 1px solid var(--border);">
+                {% if current_page > 1 %}
+                <a href="/dashboard?page={{ current_page - 1 }}"
+                    style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--text); padding: 6px 12px; background: var(--bg4); border-radius: 6px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Anterior
+                </a>
+                {% else %}
+                <span
+                    style="font-size: 12px; color: var(--muted); opacity: 0.3; display: inline-flex; align-items: center; gap: 4px; cursor: not-allowed;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Anterior
+                </span>
+                {% endif %}
+
+                <span style="font-size: 12px; color: var(--muted);">Página <strong style="color: var(--text);">{{
+                        current_page }} de {{ total_pages }}</strong></span>
+
+                {% if current_page < total_pages %} <a href="/dashboard?page={{ current_page + 1 }}"
+                    style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--text); padding: 6px 12px; background: var(--bg4); border-radius: 6px;">
+                    Próxima
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                    </a>
+                    {% else %}
+                    <span
+                        style="font-size: 12px; color: var(--muted); opacity: 0.3; display: inline-flex; align-items: center; gap: 4px; cursor: not-allowed;">
+                        Próxima
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </span>
+                    {% endif %}
+            </div>
+            {% endif %}
+        </div>
     </div>
 
-<div class="bottom-grid">
+    <div class="dashboard-section" style="border-top: 1px solid var(--border); padding-top: 24px;">
+        <div class="section-header" style="margin-bottom: 16px; display: flex; flex-direction: column; gap: 4px;">
+            <h2
+                style="font-size: 18px; font-weight: 700; color: var(--info); display: flex; align-items: center; gap: 8px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+                Projetos Mapeados
+            </h2>
+            <p style="font-size: 12px; color: var(--muted);">Lista geral de projetos.</p>
+        </div>
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card">
+                <div class="project-card-top">
+                    <h3>{{ project[1] }}</h3>
+                </div>
+                <p class="project-description">{{ project[2] }}</p>
+                <div class="project-card-footer">
+                    <span class="project-date">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Criado em: {{ project[3] }}
+                    </span>
+
+                    <div class="project-actions-placeholder">
+                        <a href="/projects/tasks?project_id={{ project[0] }}" class="btn-notes-redirect"
+                            title="Verificar todas as tarefas.">
+                            Tarefas
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    <line x1="12" y1="11" x2="12" y2="17"></line>
+                    <line x1="9" y1="14" x2="15" y2="14"></line>
+                </svg>
+                <p>Nenhum projeto encontrado.</p>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-{% endblock %}
+    {% endblock %}

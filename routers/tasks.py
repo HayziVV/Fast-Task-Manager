@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import RedirectResponse
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-from starlette.middleware.sessions import SessionMiddleware
-from datetime import date
+from datetime import datetime
+from database import get_connection
 import sqlite3
 
 
@@ -17,11 +15,13 @@ async def add_task(
     expirationDate: str = Form(None),
     project_id: str = Form(None)
 ):
+    page_to_go_back = request.headers.get("referer")
+    url_to_go = page_to_go_back if page_to_go_back else "/tasks"
     user_id = request.session.get("user_id")
     if not user_id:
         return RedirectResponse(url="/", status_code=303)
     
-    initialDate = date.today().isoformat()
+    initialDate = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if not expirationDate:
         expirationDate = None
     
@@ -35,12 +35,12 @@ async def add_task(
 
     conn = None
     try:
-        conn = sqlite3.connect("database.db", timeout=20)
+        conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("""INSERT INTO tasks(user_id, project_id,taskName, taskDescription, expirationDate, initialDate) VALUES (?, ?, ?, ?, ?, ?) """, 
                     (user_id, project_id ,taskName, taskDescription, expirationDate, initialDate))
         conn.commit()
-        return RedirectResponse(url="/tasks", status_code=303)
+        return RedirectResponse(url=url_to_go, status_code=303)
     except sqlite3.Error:
         return RedirectResponse(url="/tasks?error=Erro ao adicionar tarefa.", status_code=303)
     finally:
@@ -52,21 +52,62 @@ async def remove_task(
     request: Request,
     task_id: int = Form(...),
 ):
+    page_to_go_back = request.headers.get("referer")
+    url_to_go = page_to_go_back if page_to_go_back else "/tasks"
     user_id = request.session.get("user_id")
     if not user_id:
         return RedirectResponse(url="/", status_code=303)
     conn = None
     try:
-        conn = sqlite3.connect("database.db", timeout=20)
+        conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("""DELETE FROM tasks WHERE task_id = ? AND user_id = ?""", 
                     (task_id, user_id))
         conn.commit()
-        return RedirectResponse(url="/tasks", status_code=303)
+        return RedirectResponse(url=url_to_go, status_code=303)
+    except sqlite3.IntegrityError:
+        return RedirectResponse(
+            url="/tasks?error=Não é possível excluir esta tarefa. Remova as notas vinculadas a ela primeiro.", 
+            status_code=303
+        )
     except sqlite3.Error:
         return RedirectResponse(url="/tasks?error=Erro ao remover tarefa.", status_code=303)
     finally:
         if conn:
             conn.close()
 
+@router.post("/tasks/update-status")
+async def update_task_status(
+    request: Request,
+    task_id: int = Form(...),
+    taskName: str = Form(...),
+    status_id: int = Form(...)
+):
+    page_to_go_back = request.headers.get("referer")
+    url_to_go = page_to_go_back if page_to_go_back else "/tasks"
+    user_id = request.session.get("user_id")
+    if not user_id:
+        return RedirectResponse(url="/", status_code=303)
     
+    conn = None
+    try:
+    
+        conn = get_connection()
+        cursor = conn.cursor()
+  
+        cursor.execute(
+            """UPDATE tasks 
+               SET status_id = ?, taskName = ? 
+               WHERE task_id = ? AND user_id = ?""",
+            (status_id, taskName, task_id, user_id)
+        )
+        conn.commit()
+        
+        
+        return RedirectResponse(url=url_to_go, status_code=303)
+        
+    except sqlite3.Error:
+        return RedirectResponse(url="/tasks?error=Erro ao atualizar o estado da tarefa.", status_code=303)
+    finally:
+        if conn:
+            conn.close()

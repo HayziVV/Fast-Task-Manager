@@ -5,17 +5,24 @@
 
     <div class="projects-header">
         <div class="header-info">
-            <h2>Minhas Tarefas</h2>
-            <p>Gerencie e acompanhe suas tarefas globais ou por escopo.</p>
+            <h2>{{ page_title }}</h2>
+            <p>Gerencie as tarefas exclusivas deste escopo.</p>
         </div>
-        <button class="btn-new" id="open-add-task-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            Nova Tarefa
-        </button>
+
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <a href="/projects" class="btn-cancel"
+                style="text-decoration: none; padding: 10px 15px; border-radius: 8px;">
+                Voltar aos Projetos
+            </a>
+            <button class="btn-new" id="open-add-task-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Nova Tarefa
+            </button>
+        </div>
     </div>
 
     {% if error %}
@@ -24,49 +31,18 @@
     </div>
     {% endif %}
 
-    <div class="panel">
-        <form method="get" action="/tasks/" class="task-form-panel">
-            <div class="form-row">
-                <div class="form-group flex-2">
-                    <label for="sort_by">Ordenar por</label>
-                    <select name="sort_by" id="sort_by" class="status-select">
-                        <option value="initialDate" {% if sort_by=='initialDate' %}selected{% endif %}>Data de Criação
-                        </option>
-                        <option value="expirationDate" {% if sort_by=='expirationDate' %}selected{% endif %}>Data de
-                            Término (Prazo)</option>
-                    </select>
-                </div>
-
-                <div class="form-group flex-2">
-                    <label for="status_id">Filtrar por Status</label>
-                    <select name="status_id" id="status_id" class="status-select">
-                        <option value="all" {% if status_id=='all' %}selected{% endif %}>Todos os Status</option>
-                        <option value="0" {% if status_id=='0' %}selected{% endif %}>Em Progresso</option>
-                        <option value="1" {% if status_id=='1' %}selected{% endif %}>Concluído</option>
-                        <option value="2" {% if status_id=='2' %}selected{% endif %}>Suspenso</option>
-                    </select>
-                </div>
-
-                <div class="form-group flex-1">
-                    <label>&nbsp;</label>
-                    <button type="submit" class="btn-manage">Filtrar</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <div class="projects-grid">
+    <div class="projects-grid" style="margin-top: 25px;">
         {% for task in tasks %}
         <div class="project-card">
 
             <div class="project-card-top">
                 <h3>{{ task[1] }}</h3>
 
-                {% if task[5] == 0 %}
+                {% if task[3] == 0 %}
                 <span class="pill dev">Em Progresso</span>
-                {% elif task[5] == 1 %}
+                {% elif task[3] == 1 %}
                 <span class="pill ops">Concluído</span>
-                {% elif task[5] == 2 %}
+                {% elif task[3] == 2 %}
                 <span class="pill mkt">Suspenso</span>
                 {% endif %}
             </div>
@@ -83,10 +59,10 @@
                             <line x1="8" y1="2" x2="8" y2="6"></line>
                             <line x1="3" y1="10" x2="21" y2="10"></line>
                         </svg>
-                        Criada em: {{ task[3] }}
+                        Criada em: {{ task[4] }}
                     </span>
 
-                    {% if task[4] %}
+                    {% if task[5] %}
                     <span class="task-date overdue">
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
@@ -94,7 +70,7 @@
                             <circle cx="12" cy="12" r="10"></circle>
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
-                        Prazo: {{ task[4] }}
+                        Prazo: {{ task[5] }}
                     </span>
                     {% endif %}
                 </div>
@@ -105,7 +81,7 @@
                         Notações
                     </a>
                     <button type="button" class="btn-manage"
-                        onclick="openManageModal('{{ task[0] }}', '{{ task[1] }}', '{{ task[5] }}')">
+                        onclick="openManageModal('{{ task[0] }}', '{{ task[1] }}', '{{ task[3] }}')">
                         Gerenciar
                     </button>
                 </div>
@@ -120,43 +96,26 @@
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
-            <p>Nenhuma tarefa registrada para esta visualização.</p>
+            <p>Nenhuma tarefa registrada para este projeto.</p>
         </div>
         {% endfor %}
     </div>
-
-    {% if total_pages > 1 %}
-    <div class="pagination-wrap">
-        {% if current_page > 1 %}
-        <a href="/tasks/?page={{ current_page - 1 }}&sort_by={{ sort_by }}&status_id={{ status_id }}" class="icon-btn">←
-            Anterior</a>
-        {% else %}
-        <div class="icon-btn disabled">← Anterior</div>
-        {% endif %}
-
-        <span class="pagination-text">Página <strong>{{ current_page }}</strong> de {{ total_pages }}</span>
-
-        {% if current_page < total_pages %} <a
-            href="/tasks/?page={{ current_page + 1 }}&sort_by={{ sort_by }}&status_id={{ status_id }}" class="icon-btn">
-            Próxima →</a>
-            {% else %}
-            <div class="icon-btn disabled">Próxima →</div>
-            {% endif %}
-    </div>
-    {% endif %}
 </div>
 
 <div class="modal-overlay" id="modal-add-task">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Criar Nova Tarefa</h3>
+            <h3>Criar Tarefa no Projeto</h3>
             <button class="close-x-btn" id="close-add-x">&times;</button>
         </div>
 
         <form action="/tasks/add" method="post" class="modal-form">
+
+            <input type="hidden" name="project_id" value="{{ project_id }}">
+
             <div class="form-group">
                 <label for="taskName">Nome da Tarefa</label>
-                <input type="text" id="taskName" name="taskName" required placeholder="Ex: Finalizar queries do banco">
+                <input type="text" id="taskName" name="taskName" required placeholder="Ex: Finalizar views">
             </div>
 
             <div class="form-group">
@@ -166,28 +125,11 @@
 
             <div class="form-group">
                 <label for="taskDescription">Descrição da Tarefa</label>
-                <textarea id="taskDescription" name="taskDescription" required
-                    placeholder="Descreva os passos necessários..." rows="3"></textarea>
+                <textarea id="taskDescription" name="taskDescription" required placeholder="Descreva os passos..."
+                    rows="3"></textarea>
             </div>
 
-            <div class="form-group project-selector-section">
-                <label>Vincular a um Projeto (Opcional)</label>
-                <div class="project-selector-grid">
-                    <label class="project-option-card">
-                        <input type="radio" name="project_id" value="" checked>
-                        <span>Nenhum</span>
-                    </label>
-
-                    {% for project in projects %}
-                    <label class="project-option-card">
-                        <input type="radio" name="project_id" value="{{ project[0] }}">
-                        <span>{{ project[1] }}</span>
-                    </label>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="modal-actions">
+            <div class="modal-actions" style="margin-top: 15px;">
                 <button type="button" class="btn-cancel" id="close-add-btn">Cancelar</button>
                 <button type="submit" class="btn-submit-project">Salvar Tarefa</button>
             </div>
@@ -221,34 +163,21 @@
 
             <div class="modal-actions">
                 <button type="button" class="btn-delete-project" id="clear-note-trigger" title="Apagar Nota Vinculada">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
                     Apagar Nota
                 </button>
 
                 <button type="button" class="btn-delete-project" id="clear-task-trigger" title="Apagar Tarefa">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
                     Apagar Tarefa
                 </button>
 
                 <button type="button" class="btn-cancel" id="close-manage-btn">Fechar</button>
                 <button type="submit" class="btn-submit-project">Atualizar</button>
             </div>
-
-
         </form>
 
         <form id="form-delete-note" action="/tasks/notes/remove" method="post" style="display: none;">
             <input type="hidden" id="clear-note-task-id" name="task_id" value="">
         </form>
-
         <form id="form-delete-task" action="/tasks/remove" method="post" style="display: none;">
             <input type="hidden" id="clear-task-id" name="task_id" value="">
         </form>

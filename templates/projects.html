@@ -28,10 +28,10 @@
         <div class="project-card">
             <div class="project-card-top">
                 <h3>{{ project[1] }}</h3>
-                
+
                 <form action="/projects/remove" method="POST"
                     onsubmit="return confirm('Deseja realmente remover este projeto? Todas as opções vinculadas sumirão.');">
-                    <input type="hidden" name="id" value="{{ project[0] }}">
+                    <input type="hidden" name="project_id" value="{{ project[0] }}">
                     <button type="submit" class="btn-delete-project" title="Excluir Projeto">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">
@@ -58,7 +58,10 @@
                 </span>
 
                 <div class="project-actions-placeholder">
-                    <a class="btn-new">Gerenciar Projeto</a>
+                    <a href="/projects/tasks?project_id={{ project[0] }}" class="btn-notes-redirect"
+                        title="Verificar todas as tarefas.">
+                        Tarefas
+                    </a>
                 </div>
             </div>
         </div>
@@ -105,5 +108,5 @@
 
 
 
-<script src="{{ url_for('static', path='js/projects.js') }}"></script>
+<script src="/static/js/projects.js"></script>
 {% endblock %}

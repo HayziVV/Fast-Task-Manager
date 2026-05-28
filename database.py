@@ -1,27 +1,17 @@
 import sqlite3
 
+def get_connection():
+    conn = sqlite3.connect("database.db", timeout=20)
+    conn.execute("PRAGMA foreign_keys = ON;")
+    return conn
+
 def init_db():
     conn = None
     try:
-        conn = sqlite3.connect("database.db", timeout=20)
+        conn = get_connection()
         cursor = conn.cursor()
-        cursor.execute("PRAGMA foreign_keys = ON")
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS teams(
-                team_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                teamName TEXT UNIQUE NOT NULL
-            )
-            """)
-        
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS roles(
-                role_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                roleName TEXT UNIQUE NOT NULL
-            )
-        """)
-
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS status(
+            CREATE TABLE IF NOT EXISTS status (
                 status_id INTEGER PRIMARY KEY,
                 statusName TEXT NOT NULL UNIQUE
             )
@@ -31,14 +21,9 @@ def init_db():
             CREATE TABLE IF NOT EXISTS users (
                 user_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT UNIQUE NOT NULL,
-                role_id INTEGER,
-                team_id INTEGER,
-                password TEXT NOT NULL,
-                FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE RESTRICT,
-                FOREIGN KEY (team_id) REFERENCES teams (team_id) ON DELETE RESTRICT
+                password TEXT NOT NULL
             )
         """)
-        
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS projects (
                 project_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,9 +55,11 @@ def init_db():
             CREATE TABLE IF NOT EXISTS notes(
                 note_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 task_id INTEGER NOT NULL,
+                user_id INTEGER NOT NULL,
                 content TEXT NOT NULL,
                 initialDate TEXT NOT NULL,
-                FOREIGN KEY (task_id) REFERENCES tasks(task_id) ON DELETE RESTRICT
+                FOREIGN KEY (task_id) REFERENCES tasks (task_id) ON DELETE RESTRICT
+                FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE RESTRICT
             )
          """)
         conn.commit()

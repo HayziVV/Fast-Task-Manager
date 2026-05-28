@@ -6,7 +6,7 @@
 }
 
 body {
-    background: linear-gradient(to bottom, black, rgb(4, 36, 85), rgb(6, 87, 141));
+    background: linear-gradient(to bottom, #0C0B12, #1C192B, #2D2650);
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -15,65 +15,59 @@ body {
 }
 
 .sign-in-container {
-    background: linear-gradient(to bottom, black, rgba(0, 0, 0, 0.897), rgba(0, 0, 0, 0.699));
+    background: linear-gradient(to bottom, #0C0B12, rgba(12, 11, 18, 0.93), rgba(18, 16, 30, 0.75));
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(155, 143, 224, 0.1);
     width: 100%;
     max-width: 400px;
 }
 
 .sign-up-container {
-    background: linear-gradient(to bottom, black, rgba(0, 0, 0, 0.897), rgba(0, 0, 0, 0.699));
+    background: linear-gradient(to bottom, #0C0B12, rgba(12, 11, 18, 0.93), rgba(18, 16, 30, 0.75));
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(155, 143, 224, 0.1);
     width: 100%;
     max-width: 400px;
 }
 
 h1 {
-    color: #f8f8f8;
+    color: #E8E6F5;
     margin-bottom: 24px;
     text-align: center;
     font-size: 24px;
     font-weight: 600;
 }
 
-/* Estilo do Cabeçalho */
+
 .app-header {
     background-color: transparent;
     text-align: center;
     width: 100%;
     margin-bottom: 30px;
-    /* Dá um respiro entre o título e a caixa branca */
 }
 
-/* Estilo do texto principal */
+
 .app-header h2 {
     font-size: 36px;
-    background: linear-gradient(45deg, #d8e8ec, #32b3ee);
+    background: linear-gradient(45deg, #C4BDEE, #9B8FE0);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-
     margin: 0;
     font-weight: 700;
     letter-spacing: -0.5px;
-
 }
 
-
 .app-header .highlight {
-    background: linear-gradient(45deg, #0056b3, #00d2ff);
+    background: linear-gradient(45deg, #5B3FC4, #9B8FE0);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
-
 }
-
 
 .form-group {
     margin-bottom: 20px;
@@ -82,34 +76,34 @@ h1 {
 label {
     display: block;
     margin-bottom: 8px;
-    color: #ffffff;
+    color: #E8E6F5;
     font-size: 14px;
 }
-
 
 input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 12px;
-    border: 1px solid #cccccc;
+    background-color: #1C192B;
+    border: 1px solid rgba(155, 143, 224, 0.2);
     border-radius: 4px;
     font-size: 16px;
+    color: #E8E6F5;
     transition: border-color 0.3s;
 }
 
 input[type="text"]:focus,
-
 input[type="password"]:focus {
-    border-color: #0056b3;
+    border-color: #9B8FE0;
     outline: none;
+    box-shadow: 0 0 0 3px rgba(155, 143, 224, 0.12);
 }
-
 
 button {
     width: 50%;
     padding: 12px;
-    background-color: rgb(6, 87, 141);
-    color: #ffffff;
+    background: linear-gradient(135deg, #9B8FE0, #5B3FC4);
+    color: #0C0B12;
     border: none;
     display: block;
     margin: 0 auto;
@@ -117,25 +111,23 @@ button {
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: opacity 0.3s;
     margin-top: 10px;
 }
 
-
 button:hover {
-    background-color: rgb(4, 36, 85);
+    opacity: 0.88;
 }
-
 
 .footer-text {
     text-align: center;
     margin-top: 24px;
     font-size: 14px;
-    color: #666666;
+    color: #7A748C;
 }
 
 .footer-text a {
-    color: #0056b3;
+    color: #9B8FE0;
     text-decoration: none;
     font-weight: 600;
 }
@@ -145,64 +137,62 @@ button:hover {
 }
 
 .error-alert {
-    background-color: rgba(255, 75, 43, 0.2);
-    /* Vermelho suave transparente */
-    color: #ff4b2b;
-    /* Vermelho vivo para o texto */
+    background-color: rgba(255, 82, 82, 0.12);
+    color: #ff7c7c;
     padding: 10px;
     border-radius: 4px;
-    border: 1px solid #ff4b2b;
+    border: 1px solid rgba(255, 82, 82, 0.25);
     margin-bottom: 20px;
     text-align: center;
     font-size: 14px;
 }
 
 .dashboard-container {
-    background-color: #0a0a0a;
+    background-color: #13111E;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     width: 100%;
     max-width: 800px;
-    border: 1px solid #1a1a1a;
+    border: 1px solid rgba(155, 143, 224, 0.1);
 }
 
 h3 {
     margin-bottom: 20px;
     font-weight: 500;
-    color: #00d2ff;
+    color: #9B8FE0;
 }
 
-/* Estilo do Formulário de Nova Tarefa */
 .task-form {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr auto;
     gap: 15px;
     margin-bottom: 40px;
     padding-bottom: 20px;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid rgba(155, 143, 224, 0.1);
 }
 
 .form-group label {
     display: block;
     font-size: 12px;
     margin-bottom: 5px;
-    color: #aaaaaa;
+    color: #7A748C;
 }
 
 input,
 select {
     width: 100%;
     padding: 10px;
-    background-color: #ffffff;
-    border: none;
+    background-color: #1C192B;
+    border: 1px solid rgba(155, 143, 224, 0.15);
     border-radius: 6px;
     font-size: 14px;
+    color: #E8E6F5;
 }
 
 .btn-add {
-    background: linear-gradient(45deg, #0056b3, #007bff);
-    color: white;
+    background: linear-gradient(135deg, #9B8FE0, #5B3FC4);
+    color: #0C0B12;
     border: none;
     padding: 10px 20px;
     border-radius: 6px;
@@ -213,52 +203,50 @@ select {
 }
 
 .btn-add:hover {
-    opacity: 0.9;
+    opacity: 0.88;
 }
 
-/* Estilo da Lista de Tarefas */
 .task-list {
     list-style: none;
 }
 
 .task-item {
-    background-color: #161616;
+    background-color: #1C192B;
     margin-bottom: 10px;
     padding: 15px;
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-left: 4px solid #0056b3;
-    /* Cor padrão */
+    border-left: 4px solid #5B3FC4;
 }
 
-/* Cores baseadas na prioridade usando Jinja2 futuramente */
 .priority-high {
-    border-left-color: #ff4b2b;
+    border-left-color: #ff5252;
 }
 
 .priority-medium {
-    border-left-color: #ffb400;
+    border-left-color: #ffa94d;
 }
 
 .priority-low {
-    border-left-color: #38ef7d;
+    border-left-color: #69db7c;
 }
 
 .task-info h4 {
     font-size: 16px;
     margin-bottom: 5px;
+    color: #E8E6F5;
 }
 
 .task-info p {
     font-size: 12px;
-    color: #888888;
+    color: #7A748C;
 }
 
 .logout-link {
     margin-top: 20px;
-    color: #0056b3;
+    color: #9B8FE0;
     text-decoration: none;
     font-size: 14px;
 }

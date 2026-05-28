@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<div class="note-editor-container" id="editorContainer">
+
+    <div class="note-editor-header">
+        <a href="/tasks" class="btn-back-tasks" title="Voltar para a lista de tarefas">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Voltar para Tarefas
+        </a>
+
+        {% if error %}
+        <div class="note-error-alert">
+            <span> {{ error }}</span>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="editor-toolbar">
+        <div class="toolbar-group">
+            <label for="fontStyle">Fonte da Página:</label>
+            <select id="fontStyle" class="toolbar-select" onchange="updateGlobalFont(this.value)">
+                <option value="font-sans">Padrão (Sans)</option>
+                <option value="font-serif">Elegante (Serif)</option>
+                <option value="font-mono">Código (Mono)</option>
+            </select>
+        </div>
+
+        <div class="toolbar-group">
+            <label>Tamanho do Texto:</label>
+            <button type="button" class="toolbar-btn" style="font-weight: bold;"
+                onmousedown="event.preventDefault(); changeFontSize('14px')">Pequeno</button>
+            <button type="button" class="toolbar-btn" style="font-weight: bold;"
+                onmousedown="event.preventDefault(); changeFontSize('16px')">Normal</button>
+            <button type="button" class="toolbar-btn" style="font-weight: bold;"
+                onmousedown="event.preventDefault(); changeFontSize('22px')">Médio</button>
+            <button type="button" class="toolbar-btn" style="font-weight: bold;"
+                onmousedown="event.preventDefault(); changeFontSize('32px')">Grande</button>
+        </div>
+
+        <div class="toolbar-group" style="margin-left: auto;">
+            <label class="toolbar-switch">
+                <input type="checkbox" id="fullWidthCheck" onchange="toggleFullWidth(this.checked)">
+                <span class="slider-label">Largura total</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="note-document-card">
+        <form action="/tasks/notes/save" method="post" class="note-form" onsubmit="synchronizeEditorContents()">
+            <input type="hidden" name="task_id" value="{{ task_id }}">
+
+            <textarea name="content" id="hiddenContentInput" hidden></textarea>
+
+            <div class="note-meta-info">
+                <span class="note-badge">Documento Expandido da Tarefa #{{ task_id }}</span>
+            </div>
+
+            <div id="richTextEditor" class="note-rich-editor font-sans" contenteditable="true"
+                placeholder="Selecione um trecho ou clique em um tamanho acima para começar a escrever...">{{
+                note_content | safe }}</div>
+
+            <div class="note-editor-actions">
+                <div class="export-actions-group" style="display: flex; gap: 10px;">
+                    <a href="/tasks/notes/download/txt?task_id={{ task_id }}" class="toolbar-btn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Baixar .TXT
+                    </a>
+                    <button type="button" class="toolbar-btn" onmousedown="event.preventDefault(); exportToPDF()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        Exportar PDF
+                    </button>
+                </div>
+                <button type="submit" class="btn-save-note">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/static/js/notes.js"></script>
+{% endblock %}
