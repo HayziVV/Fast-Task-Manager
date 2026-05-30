@@ -8,13 +8,20 @@ import uvicorn
 import threading
 import webview
 import time
+import os
+import sys
 
+if getattr(sys, 'frozen', False):
+    base_path = sys._MEIPASS
+else:
+    base_path = os.path.dirname(os.path.abspath(__file__))
 
-SECRET_KEY = "Fast_task_manager_development_test_key" # Key made for testing.
+os.chdir(base_path)
+SESSION_KEY = "Fast_task_manager_development_test_key" # Key made for testing.
 
 app = FastAPI()
 
-app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
+app.add_middleware(SessionMiddleware, secret_key=SESSION_KEY)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
@@ -38,7 +45,8 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
     
-    time.sleep(1)
+    
+    time.sleep(1.5)
 
     webview.create_window(
         title="Fast Task Manager", 
@@ -46,6 +54,5 @@ if __name__ == "__main__":
         width=1200, 
         height=800,
         min_size=(800, 600),
-       
     )
     webview.start(icon="static/favicon.ico")

@@ -1987,7 +1987,7 @@ body {
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    overflow: hidden;
+    overflow-x: auto;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -2000,6 +2000,9 @@ body {
     border-bottom: 1px solid var(--border);
     text-align: center;
     padding: 12px 0;
+
+    width: 100%;
+    min-width: 700px;
 }
 
 .weekday-name {
@@ -2017,7 +2020,9 @@ body {
 .calendar-days-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-auto-rows: minmax(110px, 1fr);
+    grid-auto-rows: 1fr;
+    width: 100%;
+    min-width: 700px;
     flex: 1;
 }
 

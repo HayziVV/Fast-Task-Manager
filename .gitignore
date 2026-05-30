@@ -7,7 +7,9 @@ env/
 __pycache__/
 *.py[cod]
 *$py.class
-
+main.spec
+build/
+dist/
 # Banco de Dados SQLite
 *.db
 *.sqlite3
@@ -15,3 +17,4 @@ __pycache__/
 # Arquivos do Sistema Operacional
 .DS_Store
 Thumbs.db
+
