@@ -31,7 +31,7 @@ def init_db():
                 projectName TEXT NOT NULL,
                 projectDescription TEXT NOT NULL,
                 initialDate TEXT NOT NULL,
-                FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE RESTRICT
+                FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
             )
         """)
 
@@ -45,8 +45,8 @@ def init_db():
                 taskDescription TEXT NOT NULL,
                 initialDate TEXT NOT NULL,
                 expirationDate TEXT,
-                FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE RESTRICT,
-                FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE RESTRICT,
+                FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
+                FOREIGN KEY (project_id) REFERENCES projects (project_id) ON DELETE CASCADE,
                 FOREIGN KEY (status_id) REFERENCES status (status_id)
             )
         """)
@@ -58,8 +58,8 @@ def init_db():
                 user_id INTEGER NOT NULL,
                 content TEXT NOT NULL,
                 initialDate TEXT NOT NULL,
-                FOREIGN KEY (task_id) REFERENCES tasks (task_id) ON DELETE RESTRICT
-                FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE RESTRICT
+                FOREIGN KEY (task_id) REFERENCES tasks (task_id) ON DELETE CASCADE,
+                FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
             )
          """)
         conn.commit()

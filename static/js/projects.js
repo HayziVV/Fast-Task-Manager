@@ -24,3 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+function confirmExclusion(projectId) {
+    CustomConfirm(
+        "Deseja realmente remover este projeto? Todas as tarefas vinculadas sumirão.",
+        function () {
+            document.getElementById('form-delete-' + projectId).submit();
+        }
+    );
+}

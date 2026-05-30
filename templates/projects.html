@@ -29,10 +29,10 @@
             <div class="project-card-top">
                 <h3>{{ project[1] }}</h3>
 
-                <form action="/projects/remove" method="POST"
-                    onsubmit="return confirm('Deseja realmente remover este projeto? Todas as opções vinculadas sumirão.');">
+                <form action="/projects/remove" method="POST" id="form-delete-{{ project[0] }}">
                     <input type="hidden" name="project_id" value="{{ project[0] }}">
-                    <button type="submit" class="btn-delete-project" title="Excluir Projeto">
+                    <button type="button" class="btn-delete-project" title="Excluir Projeto"
+                        onclick="confirmExclusion('{{ project[0] }}')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>

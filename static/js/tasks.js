@@ -29,14 +29,14 @@ window.addEventListener('click', (e) => {
     if (e.target === manageModal) manageModal.classList.remove('active');
 });
 
-document.getElementById('clear-note-trigger').addEventListener('click', () => {
-    if (confirm("Tem certeza de que deseja apagar permanentemente todas as anotações desta tarefa?")) {
+document.getElementById('clear-note-trigger').addEventListener('click', function () {
+    CustomConfirm("Tem certeza de que deseja apagar permanentemente todas as anotações desta tarefa?", function () {
         document.getElementById('form-delete-note').submit();
-    }
+    });
 });
 
-document.getElementById('clear-task-trigger').addEventListener('click', () => {
-    if (confirm("Tem certeza de que deseja apagar permanentemente a tarefa?")) {
+document.getElementById('clear-task-trigger').addEventListener('click', function () {
+    CustomConfirm("Tem certeza de que deseja apagar permanentemente a tarefa?", function () {
         document.getElementById('form-delete-task').submit();
-    }
+    });
 });

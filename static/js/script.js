@@ -35,3 +35,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+function CustomConfirm(mensagem, callbackAcao) {
+    const modalConfirm = document.getElementById('modal-custom-confirm');
+    const msgTexto = document.getElementById('confirm-message');
+    const btnCancel = document.getElementById('btn-cancel-confirm');
+    const btnAccept = document.getElementById('btn-accept-confirm');
+
+    msgTexto.textContent = mensagem;
+    modalConfirm.style.display = 'flex';
+    btnCancel.onclick = function () {
+        modalConfirm.style.display = 'none';
+    };
+
+
+    btnAccept.onclick = function () {
+        modalConfirm.style.display = 'none';
+        callbackAcao();
+    };
+}
