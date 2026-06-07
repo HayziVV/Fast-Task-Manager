@@ -5,10 +5,10 @@ O projeto foi construído utilizando uma arquitetura que permite seu uso como um
 
 ## Screenshots
 
-![Login](static/login_image.png)
-![Dashboard](static/dashboard_image_com_tarefas.png)
-![Projetos](static/projetos.png)
-![Calendário](static/calendario.png)
+![Login](static/image/login_image.png)
+![Dashboard](static/image/dashboard_image_com_tarefas.png)
+![Projetos](static/image/projetos.png)
+![Calendário](static/image/calendario.png)
 
 # Tecnologias Utilizadas
 - **Backend:** Python com FastAPI
