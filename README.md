@@ -1,19 +1,24 @@
 # Fast Task Manager
 
-### O Fast Task Manager é uma ferramenta de produtividade pessoal desenvolvida para organização de projetos e tarefas. Com uma interface inspirada no design minimalista de ferramentas como o Notion e Trello, o foco é a funcionalidade e o acesso rápido a informações críticas.
+O Fast Task Manager é uma ferramenta de produtividade pessoal desenvolvida para organização de projetos e tarefas. Com uma interface inspirada no design minimalista de ferramentas como o Notion e Trello, o foco é a funcionalidade e o acesso rápido a informações críticas.
+O projeto foi construído utilizando uma arquitetura que permite seu uso como uma aplicação Web completa ou como um aplicativo Desktop nativo.
 
-### O projeto foi construído utilizando uma arquitetura que permite seu uso como uma aplicação Web completa ou como um aplicativo Desktop nativo.
+## Screenshots
+
+![Login](static/login_image.png)
+![Dashboard](static/dashboard_image_com_tarefas.png)
+![Projetos](static/projetos.png)
+![Calendário](static/calendario.png)
 
 # Tecnologias Utilizadas
-    Backend: Python com FastAPI (rápido e moderno).
-    Banco de Dados: SQLite (leve, offline-first e persistente).
-    Interface (UI/UX): HTML5, CSS3 (com Grid System responsivo) e JavaScript.
-    Desktop: PyWebView (para encapsular a web app numa janela nativa).
-    Empacotamento: PyInstaller (para criação do executável .exe).
-
+- **Backend:** Python com FastAPI
+- **Banco de Dados:** SQLite
+- **UI/UX:** HTML5, CSS3, JavaScript
+- **Desktop:** PyWebView
+- **Empacotamento:** PyInstaller
 # Objetivo do Projeto
 
-### Este software nasceu para ser um gerenciador de tarefas pessoal, funcional e offline. A não de camadas desnecessárias de colaboração (teams/roles) garante que o sistema seja focado na organização do próprio usuário, tornando-o rápido, leve e intuitivo.
+Este software nasceu para ser um gerenciador de tarefas pessoal, funcional e offline. A ausência de camadas desnecessárias de colaboração (teams/roles) garante que o sistema seja focado na organização do próprio usuário, tornando-o rápido, leve e intuitivo.
 
 # Como rodar o código
 
@@ -93,3 +98,9 @@ Fast-Tasks-Manager-main/
 |     |---- requirements.txt
 |     |---- .gitignore
 ```
+
+## 🚧 Roadmap
+- [ ] Exportação para PDF e TXT (pausado após migração para PyWebView)
+- [ ] Modo claro
+- [ ] Melhoria para o editor de texto da telas de notas
+- [ ] Integração com modelo de IA local (ex: Ollama ou LM Studio) para resumo de notas

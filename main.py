@@ -17,7 +17,7 @@ else:
     base_path = os.path.dirname(os.path.abspath(__file__))
 
 os.chdir(base_path)
-SESSION_KEY = "Fast_task_manager_development_test_key" # Key made for testing.
+SESSION_KEY = "Fast_task_manager_development_test_key"
 
 app = FastAPI()
 
@@ -51,8 +51,8 @@ if __name__ == "__main__":
     webview.create_window(
         title="Fast Task Manager", 
         url="http://127.0.0.1:8000",
-        width=1200, 
-        height=800,
-        min_size=(800, 600),
+        width=1280, 
+        height=720,
+        min_size=(1024, 600),
     )
     webview.start(icon="static/favicon.ico")

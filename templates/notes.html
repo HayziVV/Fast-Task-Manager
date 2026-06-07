@@ -67,6 +67,9 @@
                 note_content | safe }}</div>
 
             <div class="note-editor-actions">
+                <!--
+                 Botões de Exportar para PDF e TXT foram removidos, provavelmente vão voltar futuramente
+                 Remoção ocorreu devido a uma falha após colocar o app para funcionar com Pywebview.
                 <div class="export-actions-group" style="display: flex; gap: 10px;">
                     <a href="/tasks/notes/download/txt?task_id={{ task_id }}" class="toolbar-btn">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -76,6 +79,7 @@
                             <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
                         Baixar .TXT
+                                        
                     </a>
                     <button type="button" class="toolbar-btn" onmousedown="event.preventDefault(); exportToPDF()">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -88,7 +92,7 @@
                         </svg>
                         Exportar PDF
                     </button>
-                </div>
+                </div>-->
                 <button type="submit" class="btn-save-note">Salvar Alterações</button>
             </div>
         </form>

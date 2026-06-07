@@ -95,7 +95,7 @@ async def tasks_screen(request: Request, page: int = 1, status_id: str = None, e
     
     conn = None
     try:
-        limit = 10
+        limit = 12
         offset = (page - 1) * limit
         conn = get_connection()
         cursor = conn.cursor()
