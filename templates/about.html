@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="projects-container" style="padding: 24px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; gap: 24px;">
+    <div class="projects-header">
+        <div class="header-info">
+            <h2>Sobre o Projeto</h2>
+            <p>Informações institucionais, escopo técnico e identificação da equipe de desenvolvimento.</p>
+        </div>
+    </div>
+
+    <!-- Tema do Projeto -->
+    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+            </svg>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text);">Tema do Projeto</h3>
+        </div>
+        <p style="font-size: 14px; color: var(--text); line-height: 1.6; font-weight: 500;">
+            Sistema de Gestão de Tarefas e Produtividade Pessoal — Fast Task Manager
+        </p>
+    </div>
+
+    <!-- Objetivo do Projeto -->
+    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--info);">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+            </svg>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text);">Objetivo do Projeto</h3>
+        </div>
+        <p style="font-size: 13px; color: var(--muted); line-height: 1.6;">
+            O <strong>Fast Task Manager</strong> tem como objetivo prover uma solução moderna, ágil e focada em produtividade pessoal, abrangendo organização completa de projetos, tarefas com status operacionais e prazos de entrega, calendário integrado, anotações detalhadas vinculadas a tarefas, relatórios analíticos em tempo real, rotinas de backup e exportação comprimida (JSON + ZIP), além de sincronização e importação de dados externos da web diretamente via repositórios do GitHub.
+        </p>
+    </div>
+
+    <!-- Desenvolvedores do Projeto -->
+    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            <h3 style="font-size: 16px; font-weight: 600; color: var(--text);">Desenvolvedores do Projeto</h3>
+        </div>
+
+        <!--
+            =======================================================================
+            INSTRUÇÃO PARA PREENCHIMENTO DOS INTEGRANTES:
+            Edite os campos "Nome Completo" e "Código de Matrícula" abaixo para cada
+            um dos 3 integrantes da equipe de desenvolvimento do projeto acadêmico.
+            =======================================================================
+        -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+            <!-- Integrante 1 -->
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(46, 213, 115, 0.15); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;">
+                        01
+                    </div>
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: var(--text);">Desenvolvedor 1</h4>
+                        <span style="font-size: 11px; color: var(--muted);">Membro da Equipe</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; border-top: 1px solid var(--border); padding-top: 12px;">
+                    <div>
+                        <span style="color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Nome Completo:</span>
+                        <div style="color: var(--text); font-weight: 600; margin-top: 2px;">[PREENCHER NOME COMPLETO 1]</div>
+                    </div>
+                    <div>
+                        <span style="color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Código de Matrícula:</span>
+                        <div style="color: var(--info); font-family: monospace; font-size: 13px; margin-top: 2px;">[PREENCHER MATRÍCULA 1]</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integrante 2 -->
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(52, 152, 219, 0.15); color: var(--info); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;">
+                        02
+                    </div>
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: var(--text);">Desenvolvedor 2</h4>
+                        <span style="font-size: 11px; color: var(--muted);">Membro da Equipe</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; border-top: 1px solid var(--border); padding-top: 12px;">
+                    <div>
+                        <span style="color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Nome Completo:</span>
+                        <div style="color: var(--text); font-weight: 600; margin-top: 2px;">[PREENCHER NOME COMPLETO 2]</div>
+                    </div>
+                    <div>
+                        <span style="color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Código de Matrícula:</span>
+                        <div style="color: var(--info); font-family: monospace; font-size: 13px; margin-top: 2px;">[PREENCHER MATRÍCULA 2]</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Integrante 3 -->
+            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 36px; height: 36px; border-radius: 50%; background: rgba(243, 156, 18, 0.15); color: var(--warn); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;">
+                        03
+                    </div>
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: var(--text);">Desenvolvedor 3</h4>
+                        <span style="font-size: 11px; color: var(--muted);">Membro da Equipe</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; border-top: 1px solid var(--border); padding-top: 12px;">
+                    <div>
+                        <span style="color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Nome Completo:</span>
+                        <div style="color: var(--text); font-weight: 600; margin-top: 2px;">[PREENCHER NOME COMPLETO 3]</div>
+                    </div>
+                    <div>
+                        <span style="color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Código de Matrícula:</span>
+                        <div style="color: var(--info); font-family: monospace; font-size: 13px; margin-top: 2px;">[PREENCHER MATRÍCULA 3]</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -150,21 +150,112 @@ async def tasks_screen(request: Request, page: int = 1, status_id: str = None, e
             conn.close()
 
 @router.get("/reports")
-async def reports_screen(request: Request):
-
+async def reports_screen(request: Request, error: str = None):
     user_id = request.session.get("user_id")
     username = request.session.get("username")
     if not user_id:
         return RedirectResponse(url="/?error=Acesso negado. Faça login primeiro.", status_code=303)
     
+    conn = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT COUNT(*) FROM tasks WHERE user_id = ?", (user_id,))
+        total_tasks = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status_id = 0", (user_id,))
+        tasks_in_progress = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status_id = 1", (user_id,))
+        tasks_completed = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM tasks WHERE user_id = ? AND status_id = 2", (user_id,))
+        tasks_suspended = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM projects WHERE user_id = ?", (user_id,))
+        total_projects = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM notes WHERE user_id = ?", (user_id,))
+        total_notes = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM imported_issues WHERE user_id = ?", (user_id,))
+        total_imported = cursor.fetchone()[0]
+
+        context = {
+            "request": request,
+            "page_title": "Relatórios",
+            "page": "reports",
+            "username": username,
+            "user_id": user_id,
+            "total_tasks": total_tasks,
+            "tasks_in_progress": tasks_in_progress,
+            "tasks_completed": tasks_completed,
+            "tasks_suspended": tasks_suspended,
+            "total_projects": total_projects,
+            "total_notes": total_notes,
+            "total_imported": total_imported,
+            "error": error
+        }
+        return templates.TemplateResponse(request=request, name="reports.html", context=context)
+    except sqlite3.Error:
+        return RedirectResponse(url="/dashboard?error=Erro ao carregar relatórios.", status_code=303)
+    finally:
+        if conn:
+            conn.close()
+
+
+@router.get("/data")
+async def data_transfer_screen(request: Request, error: str = None, success: str = None):
+    user_id = request.session.get("user_id")
+    username = request.session.get("username")
+    if not user_id:
+        return RedirectResponse(url="/?error=Acesso negado. Faça login primeiro.", status_code=303)
+
+    conn = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT import_id, issue_number, title, body, state, repo_url, html_url, imported_at "
+            "FROM imported_issues WHERE user_id = ? ORDER BY import_id DESC",
+            (user_id,)
+        )
+        imported_issues = cursor.fetchall()
+
+        context = {
+            "request": request,
+            "page_title": "Importar e Exportar Dados",
+            "page": "data",
+            "username": username,
+            "user_id": user_id,
+            "imported_issues": imported_issues,
+            "error": error,
+            "success": success
+        }
+        return templates.TemplateResponse(request=request, name="data_transfer.html", context=context)
+    except sqlite3.Error:
+        return RedirectResponse(url="/dashboard?error=Erro ao carregar dados de transferência.", status_code=303)
+    finally:
+        if conn:
+            conn.close()
+
+
+@router.get("/about")
+async def about_screen(request: Request):
+    user_id = request.session.get("user_id")
+    username = request.session.get("username")
+    if not user_id:
+        return RedirectResponse(url="/?error=Acesso negado. Faça login primeiro.", status_code=303)
+
     context = {
         "request": request,
-        "page_title": "Relatorios",
-        "page": "reports",
+        "page_title": "Sobre o Projeto",
+        "page": "about",
         "username": username,
         "user_id": user_id
     }
-    return templates.TemplateResponse(request=request, name="reports.html", context=context)
+    return templates.TemplateResponse(request=request, name="about.html", context=context)
 
 @router.get("/calendar")
 async def calendar_screen(request: Request, year: int = None, month: int = None):
