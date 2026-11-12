@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from database import init_db
-from routers import auth, projects, tasks, views, notes
+from routers import auth, projects, tasks, views, notes, data_transfer
 from fastapi.responses import FileResponse
 import uvicorn
 import threading
@@ -32,6 +32,7 @@ app.include_router(projects.router)
 app.include_router(tasks.router)
 app.include_router(views.router)
 app.include_router(notes.router)
+app.include_router(data_transfer.router)
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
