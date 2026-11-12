@@ -1,6 +1,7 @@
 import io
 import json
 import os
+import shutil
 import sqlite3
 import tempfile
 import unittest
@@ -45,19 +46,25 @@ class TestDataTransfer(unittest.IsolatedAsyncioTestCase):
     def setUp(self):
         self.temp_db_fd, self.temp_db_path = tempfile.mkstemp(suffix=".db")
         os.close(self.temp_db_fd)
+        self.temp_exports_dir = tempfile.mkdtemp()
 
         self.patcher_db = patch("database.get_connection", side_effect=self._get_test_connection)
         self.patcher_dt = patch("routers.data_transfer.get_connection", side_effect=self._get_test_connection)
+        self.patcher_exports = patch("routers.data_transfer.EXPORTS_DIR", self.temp_exports_dir)
         self.patcher_db.start()
         self.patcher_dt.start()
+        self.patcher_exports.start()
 
         database.init_db()
 
     def tearDown(self):
+        self.patcher_exports.stop()
         self.patcher_dt.stop()
         self.patcher_db.stop()
         if os.path.exists(self.temp_db_path):
             os.remove(self.temp_db_path)
+        if os.path.exists(self.temp_exports_dir):
+            shutil.rmtree(self.temp_exports_dir, ignore_errors=True)
         if os.path.exists("exports/fast_task_manager_export.zip"):
             try:
                 os.remove("exports/fast_task_manager_export.zip")
@@ -147,7 +154,16 @@ class TestDataTransfer(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(res_auth.status_code, 200)
         self.assertEqual(res_auth.media_type, "application/zip")
         self.assertIn("attachment; filename=fast_task_manager_export.zip", res_auth.headers.get("content-disposition", ""))
-        self.assertTrue(os.path.exists("exports/fast_task_manager_export.zip"))
+        self.assertTrue(os.path.exists(os.path.join(self.temp_exports_dir, "fast_task_manager_export.zip")))
+
+    async def test_export_get_handles_os_error_cleanly(self):
+        req_auth = MagicMock()
+        req_auth.session = {"user_id": 1}
+        with patch("os.makedirs", side_effect=OSError("Read-only file system")):
+            res = await export_data(req_auth)
+            self.assertEqual(res.status_code, 200)
+            self.assertEqual(res.media_type, "application/zip")
+            self.assertIn("attachment; filename=fast_task_manager_export.zip", res.headers.get("content-disposition", ""))
 
     async def test_export_local_post(self):
         req_unauth = MagicMock()
@@ -161,7 +177,7 @@ class TestDataTransfer(unittest.IsolatedAsyncioTestCase):
         res_auth = await export_data_local(req_auth)
         self.assertEqual(res_auth.status_code, 303)
         self.assertTrue(res_auth.headers["location"].startswith("/data?success="))
-        self.assertTrue(os.path.exists("exports/fast_task_manager_export.zip"))
+        self.assertTrue(os.path.exists(os.path.join(self.temp_exports_dir, "fast_task_manager_export.zip")))
 
     async def test_import_github_issues_success_and_skip_prs(self):
         conn = self._get_test_connection()
@@ -189,6 +205,13 @@ class TestDataTransfer(unittest.IsolatedAsyncioTestCase):
                 "html_url": "https://github.com/tiangolo/fastapi/pull/102",
                 "pull_request": {"url": "https://api.github.com/repos/tiangolo/fastapi/pulls/102"},
             },
+            {
+                "number": 103,
+                "title": "Issue without body",
+                "body": None,
+                "state": "open",
+                "html_url": "https://github.com/tiangolo/fastapi/issues/103",
+            },
         ]
         mock_response = MagicMock()
         mock_response.read.return_value = json.dumps(github_payload).encode("utf-8")
@@ -202,17 +225,21 @@ class TestDataTransfer(unittest.IsolatedAsyncioTestCase):
 
         conn = self._get_test_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT issue_number, title, body, state, repo_url, html_url FROM imported_issues WHERE user_id = 1")
+        cursor.execute("SELECT issue_number, title, body, state, repo_url, html_url FROM imported_issues WHERE user_id = 1 ORDER BY issue_number ASC")
         rows = cursor.fetchall()
         conn.close()
 
-        self.assertEqual(len(rows), 1)
+        self.assertEqual(len(rows), 2)
         self.assertEqual(rows[0][0], 101)
         self.assertEqual(rows[0][1], "Bug in login")
         self.assertEqual(rows[0][2], "Details about bug")
         self.assertEqual(rows[0][3], "open")
         self.assertEqual(rows[0][4], "tiangolo/fastapi")
         self.assertEqual(rows[0][5], "https://github.com/tiangolo/fastapi/issues/101")
+
+        self.assertEqual(rows[1][0], 103)
+        self.assertEqual(rows[1][1], "Issue without body")
+        self.assertEqual(rows[1][2], "")
 
     async def test_import_github_issues_error_handling(self):
         req = MagicMock()
@@ -259,6 +286,38 @@ class TestDataTransfer(unittest.IsolatedAsyncioTestCase):
         issue_row = cursor.fetchone()
         conn.close()
         self.assertEqual(issue_row[0], "Convertida")
+
+    async def test_convert_imported_to_task_prevents_duplicate(self):
+        conn = self._get_test_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO users (user_id, username, password) VALUES (1, 'carol', 'pass')")
+        cursor.execute("""
+            INSERT INTO imported_issues (import_id, user_id, issue_number, title, body, state, repo_url, html_url, imported_at)
+            VALUES (55, 1, 42, 'Refactor DB', 'Need to refactor connection pool', 'open', 'owner/repo', 'https://github.com/owner/repo/issues/42', '2026-01-01 10:00:00')
+        """)
+        conn.commit()
+        conn.close()
+
+        req = MagicMock()
+        req.session = {"user_id": 1}
+
+        # First conversion: succeeds
+        res1 = await convert_imported_to_task(req, import_id=55)
+        self.assertEqual(res1.status_code, 303)
+        self.assertEqual(unquote(res1.headers["location"]), "/data?success=Issue convertida em tarefa com sucesso!")
+
+        # Second conversion on the same import_id: fails with duplicate error
+        res2 = await convert_imported_to_task(req, import_id=55)
+        self.assertEqual(res2.status_code, 303)
+        self.assertEqual(unquote(res2.headers["location"]), "/data?error=Esta issue já foi convertida em tarefa.")
+
+        # Ensure only one task was created
+        conn = self._get_test_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM tasks WHERE user_id = 1")
+        count = cursor.fetchone()[0]
+        conn.close()
+        self.assertEqual(count, 1)
 
     async def test_delete_imported_issue(self):
         conn = self._get_test_connection()

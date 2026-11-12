@@ -12,6 +12,8 @@ from fastapi.responses import RedirectResponse
 
 from database import get_connection
 
+EXPORTS_DIR = "exports"
+
 router = APIRouter()
 
 
@@ -167,9 +169,13 @@ async def export_data(request: Request):
 
     try:
         zip_bytes = build_export_zip_bytes()
-        os.makedirs("exports", exist_ok=True)
-        with open("exports/fast_task_manager_export.zip", "wb") as f:
-            f.write(zip_bytes)
+        try:
+            os.makedirs(EXPORTS_DIR, exist_ok=True)
+            export_path = os.path.join(EXPORTS_DIR, "fast_task_manager_export.zip")
+            with open(export_path, "wb") as f:
+                f.write(zip_bytes)
+        except OSError:
+            pass
 
         headers = {
             "Content-Disposition": "attachment; filename=fast_task_manager_export.zip"
@@ -187,10 +193,11 @@ async def export_data_local(request: Request):
 
     try:
         zip_bytes = build_export_zip_bytes()
-        os.makedirs("exports", exist_ok=True)
-        with open("exports/fast_task_manager_export.zip", "wb") as f:
+        os.makedirs(EXPORTS_DIR, exist_ok=True)
+        export_path = os.path.join(EXPORTS_DIR, "fast_task_manager_export.zip")
+        with open(export_path, "wb") as f:
             f.write(zip_bytes)
-        return RedirectResponse(url="/data?success=Dados exportados com sucesso em exports/fast_task_manager_export.zip", status_code=303)
+        return RedirectResponse(url=f"/data?success=Dados exportados com sucesso em {export_path}", status_code=303)
     except Exception as e:
         return RedirectResponse(url=f"/data?error={urllib.parse.quote('Erro ao exportar dados: ' + str(e))}", status_code=303)
 
@@ -230,7 +237,7 @@ async def import_github_issues(request: Request, repo_or_url: str = Form(...)):
                     continue
                 issue_number = item.get("number")
                 title = item.get("title", "")
-                body = item.get("body")
+                body = item.get("body") or ""
                 state = item.get("state", "open")
                 repo_url = repo_label
                 html_url = item.get("html_url")
@@ -273,14 +280,20 @@ async def convert_imported_to_task(request: Request, import_id: int = Form(...))
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute(
-            "SELECT title, body, repo_url FROM imported_issues WHERE import_id = ? AND user_id = ?",
+            "SELECT title, body, repo_url, state FROM imported_issues WHERE import_id = ? AND user_id = ?",
             (import_id, user_id)
         )
         row = cursor.fetchone()
         if not row:
             return RedirectResponse(url="/data?error=Registro não encontrado.", status_code=303)
 
-        title, body, repo_url = row
+        title, body, repo_url, state = row
+        if state == "Convertida":
+            return RedirectResponse(
+                url=f"/data?error={urllib.parse.quote('Esta issue já foi convertida em tarefa.')}",
+                status_code=303,
+            )
+
         task_desc = body.strip() if (body and body.strip()) else f"Importada do GitHub ({repo_url})"
         initial_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
