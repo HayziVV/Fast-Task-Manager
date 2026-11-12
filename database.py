@@ -62,6 +62,21 @@ def init_db():
                 FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
             )
          """)
+
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS imported_issues (
+                import_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                issue_number INTEGER,
+                title TEXT NOT NULL,
+                body TEXT,
+                state TEXT NOT NULL,
+                repo_url TEXT NOT NULL,
+                html_url TEXT,
+                imported_at TEXT NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
+            )
+        """)
         conn.commit()
 
         cursor.execute("SELECT COUNT(*) FROM status")

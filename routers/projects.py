@@ -58,3 +58,31 @@ async def remove_project(
     finally:
         if conn:
             conn.close()
+
+
+@router.post("/projects/update")
+async def update_project(
+    request: Request,
+    project_id: int = Form(...),
+    projectName: str = Form(...),
+    projectDescription: str = Form(...),
+):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        return RedirectResponse(url="/", status_code=303)
+    conn = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            """UPDATE projects SET projectName = ?, projectDescription = ? WHERE project_id = ? AND user_id = ?""",
+            (projectName, projectDescription, project_id, user_id),
+        )
+        conn.commit()
+        return RedirectResponse(url="/projects", status_code=303)
+    except sqlite3.Error:
+        return RedirectResponse(url="/projects?error=Erro ao atualizar projeto.", status_code=303)
+    finally:
+        if conn:
+            conn.close()
+

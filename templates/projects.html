@@ -58,6 +58,7 @@
                 </span>
 
                 <div class="project-actions-placeholder">
+                    <button type="button" class="btn-manage" onclick='openEditProjectModal({{ project[0]|tojson }}, {{ project[1]|tojson }}, {{ project[2]|tojson }})'>Editar</button>
                     <a href="/projects/tasks?project_id={{ project[0] }}" class="btn-notes-redirect"
                         title="Verificar todas as tarefas.">
                         Tarefas
@@ -101,6 +102,35 @@
             <div class="modal-actions">
                 <button type="button" class="btn-cancel" id="close-modal-btn">Cancelar</button>
                 <button type="submit" class="btn-submit-project">Salvar Projeto</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay" id="project-edit-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Editar Projeto</h3>
+            <button class="close-x-btn" id="close-edit-modal-x">&times;</button>
+        </div>
+
+        <form action="/projects/update" method="POST" class="modal-form">
+            <input type="hidden" id="edit-project-id" name="project_id">
+
+            <div class="form-group">
+                <label for="edit-projectName">Nome do Projeto</label>
+                <input type="text" id="edit-projectName" name="projectName" placeholder="Ex: Redesign do Dashboard" required>
+            </div>
+
+            <div class="form-group">
+                <label for="edit-projectDescription">Descrição</label>
+                <textarea id="edit-projectDescription" name="projectDescription" rows="4"
+                    placeholder="Descreva os objetivos, notas rápidas ou escopo inicial..." required></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="close-edit-modal-btn">Cancelar</button>
+                <button type="submit" class="btn-submit-project">Salvar Alterações</button>
             </div>
         </form>
     </div>
