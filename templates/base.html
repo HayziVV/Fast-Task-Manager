@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fast Task Manager — {{ page_title }}</title>
+    <title>Fast Task Manager - {{ page_title }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="/static/css/base.css?v=1.0.8" rel="stylesheet" />
+    {% block extra_css %}{% endblock %}
 </head>
 
 <body>
@@ -136,7 +137,6 @@
             <header class="topbar">
                 <div class="topbar-left">
                     <h1 id="pageTitle">{{ page_title }}</h1>
-                    <p id="pageDate"></p>
                 </div>
             </header>
             <div class="content">
@@ -147,27 +147,27 @@
 
         </main>
     </div>
-    <div class="modal-overlay" id="modal-custom-confirm" style="display: none; z-index: 9999;">
-        <div class="modal-content" style="max-width: 400px; text-align: center; padding: 30px;">
+    <div class="modal-overlay modal-confirm-overlay" id="modal-custom-confirm">
+        <div class="modal-content modal-confirm-content">
 
             <svg viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" style="width: 48px; height: 48px; margin-bottom: 15px;">
+                stroke-linejoin="round" class="modal-confirm-icon">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
 
-            <h3 style="margin-bottom: 10px;">Atenção</h3>
-            <p id="confirm-message" style="color: var(--muted); margin-bottom: 25px;">Tem certeza que deseja realizar
+            <h3 class="modal-confirm-title">Atenção</h3>
+            <p id="confirm-message" class="modal-confirm-message">Tem certeza que deseja realizar
                 esta ação?</p>
 
-            <div class="modal-actions" style="justify-content: center; gap: 15px;">
+            <div class="modal-actions modal-confirm-actions">
                 <button type="button" class="btn-cancel" id="btn-cancel-confirm">Cancelar</button>
                 <button type="button" class="btn-delete-project" id="btn-accept-confirm">Sim, apagar</button>
             </div>
         </div>
     </div>
-    <script src="/static/js/script.js?v=1.0.1"></script>
+    <script src="/static/js/script.js?v=1.0.2"></script>
 </body>
 
 </html>

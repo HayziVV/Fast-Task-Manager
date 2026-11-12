@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom, #0C0B12, #1C192B, #2D2650);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.sign-in-container {
+    background: linear-gradient(to bottom, #0C0B12, rgba(12, 11, 18, 0.93), rgba(18, 16, 30, 0.75));
+    padding: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(155, 143, 224, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h1 {
+    color: #E8E6F5;
+    margin-bottom: 24px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.app-header {
+    background-color: transparent;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.app-header h2 {
+    font-size: 36px;
+    background: linear-gradient(45deg, #C4BDEE, #9B8FE0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.app-header .highlight {
+    background: linear-gradient(45deg, #5B3FC4, #9B8FE0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #E8E6F5;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #1C192B;
+    border: 1px solid rgba(155, 143, 224, 0.2);
+    border-radius: 4px;
+    font-size: 16px;
+    color: #E8E6F5;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #9B8FE0;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(155, 143, 224, 0.12);
+}
+
+button {
+    width: 50%;
+    padding: 12px;
+    background: linear-gradient(135deg, #9B8FE0, #5B3FC4);
+    color: #0C0B12;
+    border: none;
+    display: block;
+    margin: 0 auto;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: 0.88;
+}
+
+.footer-text {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: #7A748C;
+}
+
+.footer-text a {
+    color: #9B8FE0;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+.error-alert {
+    background-color: rgba(255, 82, 82, 0.12);
+    color: #ff7c7c;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 82, 82, 0.25);
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+}

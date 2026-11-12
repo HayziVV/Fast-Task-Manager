@@ -1,41 +1,44 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/data_transfer.css" />
+{% endblock %}
+
 {% block content %}
-<div class="projects-container" style="padding: 24px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; gap: 24px;">
+<div class="projects-container data-transfer-container">
     <div class="projects-header">
         <div class="header-info">
             <h2>Importar e Exportar Dados</h2>
-            <p>Backup completo em formato JSON compactado (.ZIP) e sincronização de dados externos via GitHub.</p>
+            <p>Backup completo em formato JSON e sincronização de dados externos via GitHub.</p>
         </div>
     </div>
 
     {% if error %}
-    <div class="error-alert" style="background: rgba(255, 82, 82, 0.1); border: 1px solid var(--danger); color: var(--danger); padding: 12px 16px; border-radius: var(--radius); font-size: 13px;">
+    <div class="error-alert">
         {{ error }}
     </div>
     {% endif %}
 
     {% if success %}
-    <div class="success-alert" style="background: rgba(46, 213, 115, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 12px 16px; border-radius: var(--radius); font-size: 13px;">
+    <div class="success-alert">
         {{ success }}
     </div>
     {% endif %}
 
-    <!-- Section 1: Exportar Dados -->
-    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);">
+    <div class="transfer-card">
+        <div class="transfer-card-header">
+            <svg class="transfer-icon--accent" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" y1="15" x2="12" y2="3" />
             </svg>
-            <h3 style="font-size: 16px; font-weight: 600; color: var(--text);">Exportar Dados do Sistema (JSON + ZIP)</h3>
+            <h3 class="transfer-card-title">Exportar Dados do Sistema</h3>
         </div>
-        <p style="font-size: 13px; color: var(--muted); line-height: 1.5;">
-            Gera um arquivo comprimido <strong>.zip</strong> contendo o arquivo <code>fast_task_manager_export.json</code> com todas as tabelas do banco de dados (<code>users</code>, <code>projects</code>, <code>tasks</code>, <code>notes</code>, <code>status</code> e <code>imported_issues</code>), com sanitização automática de senhas.
+        <p class="transfer-card-desc">
+            Gera um arquivo comprimido <strong>.zip</strong> contendo o arquivo <code>fast_task_manager_export.json</code> com todas as tabelas do banco de dados (<code>users</code>, <code>projects</code>, <code>tasks</code>, <code>notes</code>, <code>status</code> e <code>imported_issues</code>).
         </p>
-        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-            <a href="/data/export" class="btn-new" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+        <div class="transfer-actions-row">
+            <a href="/data/export" class="btn-new transfer-action-link">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                     <polyline points="7 10 12 15 17 10" />
@@ -44,35 +47,33 @@
                 Baixar Backup (.ZIP)
             </a>
 
-            <form action="/data/export-local" method="post" style="display:inline;">
-                <button type="submit" class="btn-manage" style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer;">
+            <form action="/data/export-local" method="post" class="form-inline">
+                <button type="submit" class="btn-manage transfer-action-btn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
                         <polyline points="17 21 17 13 7 13 7 21" />
                         <polyline points="7 3 7 8 15 8" />
                     </svg>
-                    Salvar na Pasta /exports (Modo Desktop)
+                    Salvar Cópia na Pasta /exports
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Section 2: Importar Dados da Web (GitHub) -->
-    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--info);">
+    <div class="transfer-card">
+        <div class="transfer-card-header">
+            <svg class="transfer-icon--info" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
             </svg>
-            <h3 style="font-size: 16px; font-weight: 600; color: var(--text);">Importar Dados da Web (GitHub Issues via URLlib)</h3>
+            <h3 class="transfer-card-title">Importar Dados da Web (GitHub Issues via URLlib)</h3>
         </div>
-        <p style="font-size: 13px; color: var(--muted); line-height: 1.5;">
-            Conecte-se à API pública do GitHub usando a biblioteca padrão Python (<code>urllib.request</code>) para sincronizar issues de qualquer repositório público diretamente no banco local.
+        <p class="transfer-card-desc">
+            Informe uma URL de um projeto do GitHub para transformar as issues em tarefas do Fast-Task-Manager.
         </p>
 
-        <form action="/data/import-github" method="post" style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <input type="text" name="repo_or_url" value="HayziVV/Fast-Task-Manager" placeholder="Ex: tiangolo/fastapi ou https://github.com/HayziVV/Fast-Task-Manager" required
-                style="flex: 1; min-width: 280px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 14px; color: var(--text); font-size: 14px;">
-            <button type="submit" class="btn-new" style="cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+        <form action="/data/import-github" method="post" class="github-import-form">
+            <input type="text" name="repo_or_url" value="HayziVV/Fast-Task-Manager" placeholder="Ex: tiangolo/fastapi ou https://github.com/HayziVV/Fast-Task-Manager" required class="github-repo-input">
+            <button type="submit" class="btn-new transfer-action-btn">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="7 10 12 15 17 10" />
                     <line x1="12" y1="15" x2="12" y2="3" />
@@ -82,68 +83,67 @@
         </form>
     </div>
 
-    <!-- Section 3: Issues Armazenadas no Banco -->
-    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--warn);">
+    <div class="transfer-card">
+        <div class="transfer-card-header--between">
+            <div class="imported-issues-header-info">
+                <svg class="transfer-icon--warn" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="12" y1="8" x2="12" y2="12" />
                     <line x1="12" y1="16" x2="12.01" y2="16" />
                 </svg>
-                <h3 style="font-size: 16px; font-weight: 600; color: var(--text);">Dados Importados Armazenados no Banco (<code>imported_issues</code>)</h3>
+                <h3 class="transfer-card-title">Dados Importados Armazenados no Banco (<code>imported_issues</code>)</h3>
             </div>
-            <span style="font-size: 13px; color: var(--muted);">{{ imported_issues|length }} item(ns)</span>
+            <span class="imported-issues-count">{{ imported_issues|length }} item(ns)</span>
         </div>
 
         {% if imported_issues %}
-        <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div class="imported-issues-list">
             {% for item in imported_issues %}
-            <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
-                <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
-                    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                        <span style="font-size: 12px; font-weight: 600; color: var(--info);">#{{ item[1] }}</span>
-                        <a href="{{ item[6] }}" target="_blank" rel="noopener noreferrer" style="font-size: 14px; font-weight: 600; color: var(--text); text-decoration: none;">
+            <div class="imported-issue-card">
+                <div class="imported-issue-info">
+                    <div class="imported-issue-title-row">
+                        <span class="issue-number-badge">#{{ item[1] }}</span>
+                        <a href="{{ item[6] }}" target="_blank" rel="noopener noreferrer" class="issue-title-link">
                             {{ item[2] }}
                         </a>
                         {% if item[4] == 'Convertida' %}
-                        <span style="font-size: 11px; background: rgba(46, 213, 115, 0.15); color: var(--accent); border: 1px solid var(--accent); padding: 2px 8px; border-radius: 999px;">
+                        <span class="issue-badge-converted">
                             Convertida em Tarefa
                         </span>
                         {% else %}
-                        <span style="font-size: 11px; background: rgba(255, 255, 255, 0.06); color: var(--muted); border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px;">
+                        <span class="issue-badge-raw">
                             {{ item[4] }}
                         </span>
                         {% endif %}
                     </div>
                     {% if item[3] %}
-                    <p style="font-size: 12px; color: var(--muted); line-height: 1.4; max-height: 48px; overflow: hidden; text-overflow: ellipsis;">
+                    <p class="issue-body-snippet">
                         {{ item[3] }}
                     </p>
                     {% endif %}
-                    <div style="display: flex; gap: 16px; font-size: 11px; color: var(--muted);">
+                    <div class="issue-meta-row">
                         <span>Repositório: <strong>{{ item[5] }}</strong></span>
                         <span>Sincronizado em: {{ item[7] }}</span>
                     </div>
                 </div>
 
-                <div style="display: flex; gap: 8px; align-items: center; flex-shrink: 0;">
+                <div class="imported-issue-actions">
                     {% if item[4] != 'Convertida' %}
-                    <form action="/data/imported/to-task" method="post" style="display: inline;">
+                    <form action="/data/imported/to-task" method="post" class="form-inline">
                         <input type="hidden" name="import_id" value="{{ item[0] }}">
-                        <button type="submit" class="btn-new" style="cursor: pointer; padding: 6px 12px; font-size: 12px;">
+                        <button type="submit" class="btn-new btn-convert-issue">
                             Converter em Tarefa
                         </button>
                     </form>
                     {% else %}
-                    <button type="button" disabled style="opacity: 0.5; cursor: not-allowed; padding: 6px 12px; font-size: 12px; background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: var(--radius);">
+                    <button type="button" disabled class="btn-converted-disabled">
                         Já Convertida
                     </button>
                     {% endif %}
 
-                    <form action="/data/imported/delete" method="post" style="display: inline;">
+                    <form action="/data/imported/delete" method="post" class="form-inline">
                         <input type="hidden" name="import_id" value="{{ item[0] }}">
-                        <button type="submit" class="btn-delete-project" style="cursor: pointer; padding: 6px 10px; font-size: 12px;" title="Excluir">
+                        <button type="submit" class="btn-delete-project btn-delete-issue" title="Excluir">
                             Excluir
                         </button>
                     </form>
@@ -152,8 +152,8 @@
             {% endfor %}
         </div>
         {% else %}
-        <div class="empty-state" style="text-align: center; padding: 40px 20px; color: var(--muted); border: 1px dashed var(--border); border-radius: var(--radius);">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px; opacity: 0.6;">
+        <div class="empty-state empty-state-transfer">
+            <svg class="empty-state-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
             </svg>
             <p>Nenhuma issue importada no momento. Utilize o formulário acima para sincronizar dados do GitHub.</p>

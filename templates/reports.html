@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/reports.css?v=1.0.1" />
+{% endblock %}
+
 {% block content %}
-<div class="projects-container" style="padding: 24px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; gap: 24px;">
+<div class="projects-container reports-container">
     <div class="projects-header">
         <div class="header-info">
             <h2>Relatórios de Produtividade</h2>
@@ -10,130 +14,149 @@
     </div>
 
     {% if error %}
-    <div class="error-alert" style="background: rgba(255, 82, 82, 0.1); border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: var(--radius); font-size: 13px;">
+    <div class="error-alert">
         {{ error }}
     </div>
     {% endif %}
 
-    <!-- Metric Cards Grid -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-        <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px;">
+    <div class="metrics-grid">
+        <div class="report-card report-card--total">
+            <div class="report-card-top">
                 <span>Total de Tarefas</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 11l3 3L22 4" />
-                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                </svg>
+                <span class="report-icon-badge">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 11l3 3L22 4" />
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                    </svg>
+                </span>
             </div>
-            <div style="font-size: 28px; font-weight: 700; color: var(--text);">{{ total_tasks }}</div>
-            <div style="font-size: 12px; color: var(--muted);">Tarefas registradas no sistema</div>
+            <div class="report-card-value">{{ total_tasks }}</div>
+            <div class="report-card-label">Tarefas registradas no sistema</div>
         </div>
 
-        <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; color: var(--info); font-size: 13px;">
+        <div class="report-card report-card--progress">
+            <div class="report-card-top">
                 <span>Em Progresso</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                </svg>
+                <span class="report-icon-badge">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </span>
             </div>
-            <div style="font-size: 28px; font-weight: 700; color: var(--info);">{{ tasks_in_progress }}</div>
-            <div style="font-size: 12px; color: var(--muted);">Tarefas em andamento (Status 0)</div>
+            <div class="report-card-value">{{ tasks_in_progress }}</div>
+            <div class="report-card-label">Tarefas em andamento (Status 0)</div>
         </div>
 
-        <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; color: var(--accent); font-size: 13px;">
+        <div class="report-card report-card--completed">
+            <div class="report-card-top">
                 <span>Concluídas</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
+                <span class="report-icon-badge">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                </span>
             </div>
-            <div style="font-size: 28px; font-weight: 700; color: var(--accent);">{{ tasks_completed }}</div>
-            <div style="font-size: 12px; color: var(--muted);">Tarefas finalizadas (Status 1)</div>
+            <div class="report-card-value">{{ tasks_completed }}</div>
+            <div class="report-card-label">Tarefas finalizadas (Status 1)</div>
         </div>
 
-        <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; color: var(--warn); font-size: 13px;">
+        <div class="report-card report-card--suspended">
+            <div class="report-card-top">
                 <span>Suspensas</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="8" y1="12" x2="16" y2="12" />
-                </svg>
+                <span class="report-icon-badge">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                </span>
             </div>
-            <div style="font-size: 28px; font-weight: 700; color: var(--warn);">{{ tasks_suspended }}</div>
-            <div style="font-size: 12px; color: var(--muted);">Tarefas pausadas (Status 2)</div>
+            <div class="report-card-value">{{ tasks_suspended }}</div>
+            <div class="report-card-label">Tarefas pausadas (Status 2)</div>
         </div>
     </div>
 
-    <!-- Secondary Metrics Grid -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
-        <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px;">
+    <div class="metrics-grid">
+        <div class="report-card report-card--secondary">
+            <div class="report-card-top">
                 <span>Projetos Criados</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-                </svg>
+                <span class="report-icon-badge report-icon-badge--projects">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                    </svg>
+                </span>
             </div>
-            <div style="font-size: 28px; font-weight: 700; color: var(--text);">{{ total_projects }}</div>
-            <div style="font-size: 12px; color: var(--muted);">Workspaces organizados</div>
+            <div class="report-card-value">{{ total_projects }}</div>
+            <div class="report-card-label">Workspaces organizados</div>
         </div>
 
-        <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px;">
+        <div class="report-card report-card--secondary">
+            <div class="report-card-top">
                 <span>Notas Salvas</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                    <polyline points="14 2 14 8 20 8" />
-                    <line x1="16" y1="13" x2="8" y2="13" />
-                    <line x1="16" y1="17" x2="8" y2="17" />
-                </svg>
+                <span class="report-icon-badge report-icon-badge--notes">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                </span>
             </div>
-            <div style="font-size: 28px; font-weight: 700; color: var(--text);">{{ total_notes }}</div>
-            <div style="font-size: 12px; color: var(--muted);">Anotações e detalhes vinculados</div>
+            <div class="report-card-value">{{ total_notes }}</div>
+            <div class="report-card-label">Anotações e detalhes vinculados</div>
         </div>
 
-        <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px;">
+        <div class="report-card report-card--secondary">
+            <div class="report-card-top">
                 <span>Issues Importadas</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                </svg>
+                <span class="report-icon-badge report-icon-badge--imported">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                    </svg>
+                </span>
             </div>
-            <div style="font-size: 28px; font-weight: 700; color: var(--text);">{{ total_imported }}</div>
-            <div style="font-size: 12px; color: var(--muted);">Itens sincronizados do GitHub</div>
+            <div class="report-card-value">{{ total_imported }}</div>
+            <div class="report-card-label">Itens sincronizados do GitHub</div>
         </div>
     </div>
 
-    <!-- Completion Breakdown -->
-    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="font-size: 16px; font-weight: 600; color: var(--text);">Taxa de Conclusão de Tarefas</h3>
+    <div class="completion-panel">
+        <div class="completion-header">
+            <div class="completion-header-left">
+                <span class="completion-header-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </span>
+                <h3 class="completion-title">Taxa de Conclusão de Tarefas</h3>
+            </div>
             {% set completion_rate = ((tasks_completed / total_tasks) * 100) | round | int if total_tasks > 0 else 0 %}
-            <span style="font-size: 16px; font-weight: 700; color: var(--accent);">{{ completion_rate }}%</span>
+            <span class="completion-badge">{{ completion_rate }}%</span>
         </div>
 
-        <div style="height: 10px; width: 100%; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden; display: flex;">
+        <div class="progress-track">
             {% if total_tasks > 0 %}
-            <div style="width: {{ (tasks_completed / total_tasks * 100) }}%; background: var(--accent);" title="Concluídas: {{ tasks_completed }}"></div>
-            <div style="width: {{ (tasks_in_progress / total_tasks * 100) }}%; background: var(--info);" title="Em Progresso: {{ tasks_in_progress }}"></div>
-            <div style="width: {{ (tasks_suspended / total_tasks * 100) }}%; background: var(--warn);" title="Suspensas: {{ tasks_suspended }}"></div>
+            <div class="progress-segment-warn" style="width: {{ (tasks_in_progress / total_tasks * 100) }}%;" title="Em Progresso: {{ tasks_in_progress }}"></div>
+            <div class="progress-segment-success" style="width: {{ (tasks_completed / total_tasks * 100) }}%;" title="Concluídas: {{ tasks_completed }}"></div>
+            <div class="progress-segment-danger" style="width: {{ (tasks_suspended / total_tasks * 100) }}%;" title="Suspensas: {{ tasks_suspended }}"></div>
             {% else %}
-            <div style="width: 100%; background: rgba(255, 255, 255, 0.05);"></div>
+            <div class="progress-segment-empty"></div>
             {% endif %}
         </div>
 
-        <div style="display: flex; gap: 24px; font-size: 12px; color: var(--muted); flex-wrap: wrap;">
-            <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent);"></span>
-                <span>Concluídas: {{ tasks_completed }}</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--info);"></span>
+        <div class="completion-legend">
+            <div class="legend-item">
+                <span class="legend-dot legend-dot-warn"></span>
                 <span>Em Progresso: {{ tasks_in_progress }}</span>
             </div>
-            <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--warn);"></span>
+            <div class="legend-item">
+                <span class="legend-dot legend-dot-success"></span>
+                <span>Concluídas: {{ tasks_completed }}</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-dot legend-dot-danger"></span>
                 <span>Suspensas: {{ tasks_suspended }}</span>
             </div>
         </div>

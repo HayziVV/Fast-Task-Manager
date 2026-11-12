@@ -1,0 +1,232 @@
+
+
+.reports-container {
+    padding: 24px;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.report-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.report-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.report-icon-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+}
+
+.report-card-value {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.report-card-label {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.report-card--total {
+    border-top: 3px solid var(--accent);
+}
+.report-card--total .report-card-top,
+.report-card--total .report-card-value {
+    color: var(--accent);
+}
+.report-card--total .report-icon-badge {
+    background: rgba(155, 143, 224, 0.12);
+    color: var(--accent);
+}
+
+.report-card--progress {
+    border-top: 3px solid var(--warn);
+}
+.report-card--progress .report-card-top,
+.report-card--progress .report-card-value {
+    color: var(--warn);
+}
+.report-card--progress .report-icon-badge {
+    background: rgba(255, 169, 77, 0.12);
+    color: var(--warn);
+}
+
+.report-card--completed {
+    border-top: 3px solid var(--success);
+}
+.report-card--completed .report-card-top,
+.report-card--completed .report-card-value {
+    color: var(--success);
+}
+.report-card--completed .report-icon-badge {
+    background: rgba(105, 219, 124, 0.12);
+    color: var(--success);
+}
+
+.report-card--suspended {
+    border-top: 3px solid var(--danger);
+}
+.report-card--suspended .report-card-top,
+.report-card--suspended .report-card-value {
+    color: var(--danger);
+}
+.report-card--suspended .report-icon-badge {
+    background: rgba(255, 82, 82, 0.12);
+    color: var(--danger);
+}
+
+.report-card--secondary .report-card-top {
+    color: var(--muted);
+}
+
+.report-card--secondary .report-card-value {
+    color: var(--text);
+}
+
+.report-icon-badge--projects {
+    background: rgba(155, 143, 224, 0.12);
+    color: var(--accent);
+}
+
+.report-icon-badge--notes {
+    background: rgba(124, 111, 205, 0.12);
+    color: var(--info);
+}
+
+.report-icon-badge--imported {
+    background: rgba(155, 143, 224, 0.12);
+    color: var(--accent);
+}
+
+.completion-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.completion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.completion-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.completion-header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(155, 143, 224, 0.12);
+    color: var(--accent);
+}
+
+.completion-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.completion-badge {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--success);
+    background: rgba(105, 219, 124, 0.15);
+    border: 1px solid rgba(105, 219, 124, 0.3);
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.progress-track {
+    height: 10px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+    display: flex;
+}
+
+.progress-segment-warn {
+    background: var(--warn);
+}
+
+.progress-segment-success {
+    background: var(--success);
+}
+
+.progress-segment-danger {
+    background: var(--danger);
+}
+
+.progress-segment-empty {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.completion-legend {
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.legend-dot-warn {
+    background: var(--warn);
+}
+
+.legend-dot-success {
+    background: var(--success);
+}
+
+.legend-dot-danger {
+    background: var(--danger);
+}

@@ -5,6 +5,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from database import get_connection
 import math
+import os
 import sqlite3
 
 
@@ -241,6 +242,19 @@ async def data_transfer_screen(request: Request, error: str = None, success: str
             conn.close()
 
 
+def _load_env_file() -> dict[str, str]:
+    env_vars = {}
+    env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
+    if os.path.exists(env_path):
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    key, val = line.split("=", 1)
+                    env_vars[key.strip()] = val.strip().strip('"').strip("'")
+    return env_vars
+
+
 @router.get("/about")
 async def about_screen(request: Request):
     user_id = request.session.get("user_id")
@@ -248,12 +262,23 @@ async def about_screen(request: Request):
     if not user_id:
         return RedirectResponse(url="/?error=Acesso negado. Faça login primeiro.", status_code=303)
 
+    env_vars = _load_env_file()
+
+    def get_cfg(key: str, default: str) -> str:
+        return os.environ.get(key) or env_vars.get(key) or default
+
     context = {
         "request": request,
         "page_title": "Sobre o Projeto",
         "page": "about",
         "username": username,
-        "user_id": user_id
+        "user_id": user_id,
+        "dev1_name": get_cfg("DEV1_NAME", "[Nome Completo do Integrante 1]"),
+        "dev1_ra": get_cfg("DEV1_RA", "[Matrícula 01]"),
+        "dev2_name": get_cfg("DEV2_NAME", "[Nome Completo do Integrante 2]"),
+        "dev2_ra": get_cfg("DEV2_RA", "[Matrícula 02]"),
+        "dev3_name": get_cfg("DEV3_NAME", "[Nome Completo do Integrante 3]"),
+        "dev3_ra": get_cfg("DEV3_RA", "[Matrícula 03]"),
     }
     return templates.TemplateResponse(request=request, name="about.html", context=context)
 

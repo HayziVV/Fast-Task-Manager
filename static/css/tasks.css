@@ -1,0 +1,225 @@
+.tasks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    animation: fadeUp .4s ease both;
+}
+
+.tasks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+}
+
+.task-form-panel {
+    margin-bottom: 20px;
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+.task-form-panel .form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.task-form-panel .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.task-form-panel .form-group.flex-2 {
+    flex: 2;
+    min-width: 250px;
+}
+
+.task-form-panel .form-group.flex-1 {
+    flex: 1;
+    min-width: 150px;
+}
+
+.task-form-panel label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.task-form-panel input,
+.task-form-panel textarea {
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: var(--radius);
+    width: 100%;
+    outline: none;
+    font-family: inherit;
+}
+
+.task-form-panel textarea {
+    font-size: 14px;
+    resize: none !important;
+    height: 110px !important;
+    overflow-y: auto !important;
+}
+
+.task-form-panel input:focus,
+.task-form-panel textarea:focus {
+    border-color: var(--accent);
+}
+
+.task-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.project-selector-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.project-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    max-height: 145px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.project-option-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+    user-select: none;
+}
+
+.project-option-card input[type="radio"] {
+    display: none;
+}
+
+.project-option-card:hover {
+    border-color: rgba(155, 143, 224, 0.2);
+    color: var(--text);
+}
+
+.project-option-card:has(input:checked) {
+    border-color: var(--accent);
+    background: rgba(155, 143, 224, 0.07);
+    color: var(--accent);
+}
+
+.tasks-list-container {
+    height: auto;
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-description-text {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+.tasks-empty-state {
+    padding: 60px;
+    text-align: center;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.tasks-empty-state svg {
+    width: 48px;
+    opacity: 0.2;
+}
+
+.pagination-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    background: var(--bg2);
+    flex-shrink: 0;
+}
+
+.pagination-wrap .icon-btn {
+    text-decoration: none;
+    width: auto;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.pagination-wrap .icon-btn.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.pagination-text,
+.pagination-wrap text-info {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.status-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: var(--bg);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 32px 8px 12px;
+    border: 1px solid rgba(155, 143, 224, 0.15);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+}
+
+.status-select:hover {
+    background-color: var(--bg3);
+    border-color: rgba(155, 143, 224, 0.3);
+}
+
+.status-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(155, 143, 224, 0.15);
+}
+
+.task-deadline-icon {
+    flex-shrink: 0;
+    width: 13px;
+    height: 13px;
+    color: var(--accent);
+}

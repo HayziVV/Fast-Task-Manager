@@ -18,3 +18,8 @@ dist/
 .DS_Store
 Thumbs.db
 
+# Pastas ignoradas do projeto (exports, documentação interna e testes unitários)
+exports/
+docs/
+tests/
+

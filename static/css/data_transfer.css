@@ -1,0 +1,232 @@
+
+.data-transfer-container {
+    padding: 24px;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.transfer-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.transfer-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.transfer-card-header--between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.transfer-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.transfer-card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.transfer-actions-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.transfer-action-link,
+.transfer-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.transfer-icon--accent {
+    color: var(--accent);
+}
+
+.transfer-icon--info {
+    color: var(--info);
+}
+
+.transfer-icon--warn {
+    color: var(--warn);
+}
+
+.github-import-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.github-repo-input {
+    flex: 1;
+    min-width: 280px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s ease;
+}
+
+.github-repo-input:focus {
+    border-color: var(--accent);
+}
+
+.imported-issues-header-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.imported-issues-count {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.imported-issues-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.imported-issue-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.imported-issue-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.imported-issue-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.issue-number-badge {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--info);
+}
+
+.issue-title-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.issue-title-link:hover {
+    color: var(--accent);
+}
+
+.issue-badge-converted {
+    font-size: 11px;
+    background: rgba(105, 219, 124, 0.15);
+    color: var(--success);
+    border: 1px solid var(--success);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.issue-badge-raw {
+    font-size: 11px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.issue-body-snippet {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+    max-height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.issue-meta-row {
+    display: flex;
+    gap: 16px;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.imported-issue-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.btn-convert-issue {
+    cursor: pointer;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.btn-converted-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    padding: 6px 12px;
+    font-size: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: var(--radius);
+}
+
+.btn-delete-issue {
+    cursor: pointer;
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+.empty-state-transfer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+}
+
+.empty-state-icon {
+    margin-bottom: 12px;
+    opacity: 0.6;
+}

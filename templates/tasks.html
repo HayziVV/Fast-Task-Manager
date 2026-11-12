@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/tasks.css" />
+{% endblock %}
+
 {% block content %}
 <div class="tasks-container">
 
@@ -90,7 +94,7 @@
                     <span class="task-date overdue">
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                            style="flex-shrink: 0; width: 13px; height: 13px; color: var(--accent);">
+                            class="task-deadline-icon">
                             <circle cx="12" cy="12" r="10"></circle>
                             <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
@@ -136,12 +140,12 @@
 
         <span class="pagination-text">Página <strong>{{ current_page }}</strong> de {{ total_pages }}</span>
 
-        {% if current_page < total_pages %} <a
-            href="/tasks/?page={{ current_page + 1 }}&sort_by={{ sort_by }}&status_id={{ status_id }}" class="icon-btn">
+        {% if current_page < total_pages %}
+        <a href="/tasks/?page={{ current_page + 1 }}&sort_by={{ sort_by }}&status_id={{ status_id }}" class="icon-btn">
             Próxima →</a>
-            {% else %}
-            <div class="icon-btn disabled">Próxima →</div>
-            {% endif %}
+        {% else %}
+        <div class="icon-btn disabled">Próxima →</div>
+        {% endif %}
     </div>
     {% endif %}
 </div>
@@ -245,11 +249,11 @@
 
         </form>
 
-        <form id="form-delete-note" action="/tasks/notes/remove" method="post" style="display: none;">
+        <form id="form-delete-note" action="/tasks/notes/remove" method="post" class="form-hidden">
             <input type="hidden" id="clear-note-task-id" name="task_id" value="">
         </form>
 
-        <form id="form-delete-task" action="/tasks/remove" method="post" style="display: none;">
+        <form id="form-delete-task" action="/tasks/remove" method="post" class="form-hidden">
             <input type="hidden" id="clear-task-id" name="task_id" value="">
         </form>
     </div>

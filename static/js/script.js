@@ -7,10 +7,13 @@ function toggleCheck(el) {
     event.stopPropagation();
 }
 
-const now = new Date();
-document.getElementById('pageDate').textContent = now.toLocaleDateString('pt-BR', {
-    weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
-});
+const pageDateEl = document.getElementById('pageDate');
+if (pageDateEl) {
+    const now = new Date();
+    pageDateEl.textContent = now.toLocaleDateString('pt-BR', {
+        weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
+    });
+}
 
 const formPanel = document.getElementById('form-adicionar-tarefa');
 const btnAbrir = document.getElementById('open-task-form-btn');

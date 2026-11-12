@@ -1,0 +1,26 @@
+.project-tasks-header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.btn-back-projects {
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+.project-tasks-grid {
+    margin-top: 25px;
+}
+
+.task-deadline-icon {
+    flex-shrink: 0;
+    width: 13px;
+    height: 13px;
+    color: var(--accent);
+}
+
+.modal-actions-spaced {
+    margin-top: 15px;
+}
